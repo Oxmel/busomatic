@@ -2,11 +2,10 @@
 # -*- coding: UTF-8 -*-
 # Name : webapp.py
 # Bottle template for busomatic web app
-# Start standalone webserv if directly called (e.g python bottle-start.py)
+# Start standalone webserv if directly called (e.g python webapp.py)
 # Version : 0.1.2
 
-import bottle
-from bottle import route, run, template, static_file, response, get, debug
+from bottle import route, run, template, static_file, response, get, debug, default_app
 from src import busquery, datetime, weather
 import json
 
@@ -15,12 +14,12 @@ import json
 def index():
 	lineList = busquery.ligne()
 	weatherList = json.loads(weather.getWeather())
-        condition=weatherList["meteo"]
-        temp=weatherList["temp"]
-        wind=weatherList["wind"]
-	time=datetime.getTime()
-	date=datetime.getDate()
-	output=template('index',lineList=lineList,condition=condition,temp=temp, wind=wind,time=time, date=date)
+        condition = weatherList["meteo"]
+        temp = weatherList["temp"]
+        wind = weatherList["wind"]
+	time = datetime.getTime()
+	date = datetime.getDate()
+	output = template('index',lineList=lineList,condition=condition,temp=temp, wind=wind,time=time, date=date)
 	response.content_type = 'text/html;charset=utf8'
 	return output
 
@@ -76,7 +75,7 @@ def send_static(filename):
 
 # Start integrated webserv if called directly
 if __name__ == '__main__':
-    bottle.run(host='0.0.0.0', port=8080, reloader=True)
+    run(host='0.0.0.0', port=8080, reloader=True)
 # Or launch bottle in application mode wich is interfacing with uwsgi
 else:
-    app = application = bottle.default_app()
+    app = application = default_app()
