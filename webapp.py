@@ -5,7 +5,7 @@
 # Start standalone webserv if directly called (e.g python webapp.py)
 # Version : 0.1.2
 
-from bottle import route, run, template, static_file, response, get, debug, default_app
+from bottle import route, run, template, static_file, response, get, default_app
 from src import busquery, datetime, weather
 import json
 
@@ -42,7 +42,7 @@ def arret (id_direction):
 		<option value="{{id}}">{{name}}</option>\n 
 		%end""", stopList=stopList)
 
-# Request schedule based on stop choice 
+# Request schedule based on stop choice
 @get('/horaire/<id_arret>', method='GET')
 def horaires(id_arret):
 	timeList = busquery.horaire(id_arret)
@@ -55,7 +55,6 @@ def horaires(id_arret):
 			<td id="line_direction">{{linedir}}</td>\n
 			<td id="line_schedule">{{linetime}}</td>\n
 		</tr>\n""",timeList=timeList)
-	
 
 @get('/time')
 def heure():
