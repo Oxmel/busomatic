@@ -1,0 +1,4 @@
+In order to use the weather function, you need to register to get your api key
+Sign up on http://openweathermap.org/ to get your own
+Then create a file in this directory and call it 'weather-api-key'
+Copy paste the key in it and restart the webapp

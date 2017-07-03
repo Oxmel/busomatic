@@ -1,0 +1,17 @@
+# Ignored files list
+*.pyc
+*.sh
+
+# Ignore virtual env
+busomatic-env/
+
+# Ignore sensitive files
+weather-api-key
+forecastio-api-key
+
+# Ignore test files
+forecastio.py
+openweather.py
+
+# Ignore sqlite db backups
+busomatic_bak.sq3
