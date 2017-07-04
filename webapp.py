@@ -8,18 +8,11 @@
 from bottle import route, run, template, static_file, response, get, default_app
 from src import busquery, datetime, weather
 import json
-import sqlite3
-import os
-
-# Detect current path and add db location to it
-current_dir = os.getcwd()
-path_to_db = current_dir + '/static/db/busomatic-db.sq3'
-con = sqlite3.connect(path_to_db)
 
 # Default web page returned by bottle
 @route('/')
 def index():
-	lineList = con.execute('SELECT id_ligne, nom FROM lignes')
+	lineList = busquery.generic('SELECT id_ligne, nom FROM lignes')
 	weatherList = json.loads(weather.getWeather())
         condition = weatherList["meteo"]
         temp = weatherList["temp"]
@@ -33,13 +26,13 @@ def index():
 # Request direction list based on line choice
 @get('/direction/<id_ligne>', method='GET')
 def direction(id_ligne):
-	dirList = con.execute('SELECT id_direction, nom FROM directions WHERE id_ligne=?', id_ligne)
+	dirList = busquery.generic('SELECT id_direction, nom FROM directions WHERE id_ligne=?', id_ligne)
 	return template('directions', dirList=dirList)
 
 # Request stops based on direction choice
 @get('/arret/<id_direction>', method='GET')
 def arret (id_direction):
-	stopList = con.execute('SELECT numero, nom FROM arrets WHERE id_direction=?', id_direction)
+	stopList = busquery.generic('SELECT numero, nom FROM arrets WHERE id_direction=?', id_direction)
 	response.content_type = 'text/html;charset=utf8'
 	return template('stop', stopList=stopList)
 

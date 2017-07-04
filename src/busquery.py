@@ -18,31 +18,7 @@ path_to_db = working_dir + db_dir
 conn = sqlite3.connect(path_to_db)
 cur = conn.cursor()
 
-# Fetch all available lines from database
-def ligne():
-	# Look for all id / line name in database
-	cur.execute('SELECT id_ligne, nom FROM lignes;')
-	# Put all matching entries in a list
-	lineList = cur.fetchall()
-	cur.close
-	return lineList
-
-# Get available directions for selected line
-def direction(id_ligne):
-	# stackoverflow.com/questions/16856647/sqlite3-programmingerror-incorrect-number-of-bindings-supplied-the-current-sta
-	cur.execute("""SELECT id_direction, 
-			nom FROM directions WHERE id_ligne=(?)""", (id_ligne,))
-	dirList = cur.fetchall()
-	cur.close
-	return dirList
-
-# Get available stops for selected direction
-def arret(id_direction):
-	cur.execute('SELECT numero, nom FROM arrets WHERE id_direction=(?)',(id_direction,))
-	stopList = cur.fetchall()
-	cur.close
-	return stopList
-
+# Generic function accepting either simple sql queries or queries with args
 def generic(sqlQuery, *argparams):
     conn = sqlite3.connect(path_to_db)
     cur = conn.cursor()
