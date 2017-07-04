@@ -32,7 +32,7 @@
 	<div id="menu">
 		<select id="selectline">
 			<option>Ligne</option>	
-		% for id, name in lineList:
+		% for id, name in lines:
 			<option value="{{id}}">
 			{{name}}
 			</option>
@@ -57,7 +57,7 @@
 		</p>
 		<p id="meteo">
 			<img src="/static/images/weather.png">
-			<span id="temps">{{condition}}</span>
+			<span id="temps">{{forecast}}</span>
 			<img src="/static/images/thermometer.png">
 			<span id="temperature">{{temp}}°C</span> 
 			<img src="/static/images/wind.png">

@@ -6,41 +6,41 @@
 # Version : 0.1.2
 
 from bottle import route, run, template, static_file, response, get, default_app
-from src import busquery, datetime, weather
+from src import busquery, datetime, openweather
 import json
 
 # Default web page returned by bottle
 @route('/')
 def index():
-	lineList = busquery.generic('SELECT id_ligne, nom FROM lignes')
-	weatherList = json.loads(weather.getWeather())
-        condition = weatherList["meteo"]
-        temp = weatherList["temp"]
-        wind = weatherList["wind"]
+	lines = busquery.database('SELECT id_ligne, nom FROM lignes')
+	weather = json.loads(openweather.getWeather())
+        forecast = weather["meteo"]
+        temp = weather["temp"]
+        wind = weather["wind"]
 	time = datetime.getTime()
 	date = datetime.getDate()
-	output = template('index',lineList=lineList,condition=condition,temp=temp, wind=wind,time=time, date=date)
+	output = template('index',lines=lines,forecast=forecast,temp=temp, wind=wind,time=time, date=date)
 	response.content_type = 'text/html;charset=utf8'
 	return output
 
 # Request direction list based on line choice
 @get('/direction/<id_ligne>', method='GET')
 def direction(id_ligne):
-	dirList = busquery.generic('SELECT id_direction, nom FROM directions WHERE id_ligne=?', id_ligne)
-	return template('directions', dirList=dirList)
+	directions = busquery.database('SELECT id_direction, nom FROM directions WHERE id_ligne=?', id_ligne)
+	return template('directions', directions=directions)
 
 # Request stops based on direction choice
 @get('/arret/<id_direction>', method='GET')
 def arret (id_direction):
-	stopList = busquery.generic('SELECT numero, nom FROM arrets WHERE id_direction=?', id_direction)
+	stops = busquery.database('SELECT numero, nom FROM arrets WHERE id_direction=?', id_direction)
 	response.content_type = 'text/html;charset=utf8'
-	return template('stop', stopList=stopList)
+	return template('stop', stops=stops)
 
 # Request schedule based on stop choice
 @get('/horaire/<id_arret>', method='GET')
 def horaires(id_arret):
-	timeList = busquery.horaire(id_arret)
-	return template('schedule', timeList=timeList)
+	schedules = busquery.horaire(id_arret)
+	return template('schedule', schedules=schedules)
 
 @get('/time')
 def heure():

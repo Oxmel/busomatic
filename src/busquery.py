@@ -13,10 +13,10 @@ from bs4 import BeautifulSoup
 path_to_db = os.path.abspath(__file__ + '/../../static/db/busomatic-db.sq3')
 
 # Generic function accepting either simple sql queries or queries with args
-def generic(sqlQuery, *argparams):
+def database(query, *args):
     conn = sqlite3.connect(path_to_db)
     cur = conn.cursor()
-    cur.execute(sqlQuery, argparams)
+    cur.execute(query, args)
     testList = cur.fetchall()
     cur.close
     return testList
