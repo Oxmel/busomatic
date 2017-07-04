@@ -19,9 +19,8 @@ def index():
         wind = weather["wind"]
 	time = datetime.getTime()
 	date = datetime.getDate()
-	output = template('index',lines=lines,forecast=forecast,temp=temp, wind=wind,time=time, date=date)
 	response.content_type = 'text/html;charset=utf8'
-	return output
+	return template('index', lines=lines, forecast=forecast, temp=temp, wind=wind, time=time, date=date)
 
 # Request direction list based on line choice
 @get('/direction/<id_ligne>', method='GET')
