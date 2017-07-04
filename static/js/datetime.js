@@ -1,5 +1,4 @@
-// Name : Datetime.js
-// Version: 0.1
+// Name : datetime.js
 // Get time and date
 // Refresh both at regular interval
 

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-# Nom : DateTime.py
-# Version : 0.1.1
+# Name : datetime.py
 # Get time (24h format) and date, translate date result to French
 import time
 import os

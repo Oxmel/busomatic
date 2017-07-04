@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-# Name : BusQuery.py
-# Version : 0.1.2
+# Name : busquery.py
 import os
 import sqlite3
 import urllib

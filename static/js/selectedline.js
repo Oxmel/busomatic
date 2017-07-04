@@ -1,5 +1,4 @@
 // Name : selectedline.js
-// Version : 0.1
 // Gathering schedule for selected line
 // Also contains simple scripts for auto scroll and refresh
 
