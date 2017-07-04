@@ -43,6 +43,14 @@ def arret(id_direction):
 	cur.close
 	return stopList
 
+def generic(sqlQuery, *argparams):
+    conn = sqlite3.connect(path_to_db)
+    cur = conn.cursor()
+    cur.execute(sqlQuery, argparams)
+    testList = cur.fetchall()
+    cur.close
+    return testList
+
 # Gather schedule for selected line
 def horaire(id_arret):
 	url = ('http://qr.t2c.fr/qrcode?_stop_id=' + id_arret)
