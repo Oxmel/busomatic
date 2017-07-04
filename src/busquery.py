@@ -10,9 +10,7 @@ from bs4 import BeautifulSoup
 # Climb up to parent folder
 # Needed since folder containing db is not a child of py scripts folder
 # http://stackoverflow.com/questions/2817264/how-to-get-the-parent-dir-location
-working_dir = os.path.abspath(__file__ + '/../../')
-db_dir = '/static/db/busomatic-db.sq3'
-path_to_db = working_dir + db_dir
+path_to_db = os.path.abspath(__file__ + '/../../static/db/busomatic-db.sq3')
 
 # Generic function accepting either simple sql queries or queries with args
 def generic(sqlQuery, *argparams):
