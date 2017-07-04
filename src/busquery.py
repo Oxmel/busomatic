@@ -14,10 +14,6 @@ working_dir = os.path.abspath(__file__ + '/../../')
 db_dir = '/static/db/busomatic-db.sq3'
 path_to_db = working_dir + db_dir
 
-# Connect to database
-conn = sqlite3.connect(path_to_db)
-cur = conn.cursor()
-
 # Generic function accepting either simple sql queries or queries with args
 def generic(sqlQuery, *argparams):
     conn = sqlite3.connect(path_to_db)
