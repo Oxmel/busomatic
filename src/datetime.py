@@ -14,7 +14,7 @@ def getTime():
 	cur_time=time.strftime('%Hh%M')
 	return cur_time
 
-# Request date and translate it 
+# Request date and translate it
 def getDate():
 	cur_day=time.strftime('%A')
 	cur_dayn=time.strftime('%d')

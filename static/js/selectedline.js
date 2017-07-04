@@ -28,11 +28,11 @@
 
 	// Direction request for selected line, send result to selectdir function
 	$("#selectline").change(function() {
-    	var linetarget = document.getElementById("selectline")
+		var linetarget = document.getElementById("selectline");
 		var selectedline = linetarget.options[linetarget.selectedIndex].value;
 		var url ="/direction/";
 		var directions = url+selectedline;
-		 $.ajax({
+		$.ajax({
 		type:"GET",
             url: directions,
             success: function(retour){
@@ -44,10 +44,10 @@
 
 	// Stop request for selected direction, send result to selecstop function
 	$("#selectdir").change(function() {
-		var dirtarget = document.getElementById("selectdir")
+		var dirtarget = document.getElementById("selectdir");
 		var selecteddir = dirtarget.options[dirtarget.selectedIndex].value;
 		var url ="/arret/";
-  	    var arrets = url+selecteddir;
+		var arrets = url+selecteddir;
 		 $.ajax({
 		type:"GET",
             url: arrets,
@@ -59,14 +59,14 @@
 
 	});
 
-	 // Schedule request for selected stop, send result to "printstop" table
+	// Schedule request for selected stop, send result to "printstop" table
 	$("#selectstop").change(function() {
-		var cur_stop=function(){
-		var stoptarget = document.getElementById("selectstop")
+		var curStop=function(){
+		var stoptarget = document.getElementById("selectstop");
 		var stop_name = stoptarget.options[stoptarget.selectedIndex].text;
 		var selectedstop = stoptarget.options[stoptarget.selectedIndex].value;
 		var url ="/horaire/";
-  	    var horaires = url+selectedstop;
+		var horaires = url+selectedstop;
 		 $.ajax({
 		type:"GET",
             url: horaires,
@@ -75,19 +75,19 @@
             $("#printstop").html(retour);
 			$("#stop_name").html(stop_name);
 			// Hide menu and header, keep footer visible
-			$("#banniere").css('display', 'none');
-			$("#menu").css('display', 'none');
+			$("#banniere").css("display", "none");
+			$("#menu").css("display", "none");
 			// Show table and refresh button
-			$("#tableau").css('display', 'table-cell');
-			$("#bouton").css('display', 'table-row');
+			$("#tableau").css("display", "table-cell");
+			$("#bouton").css("display", "table-row");
 			// Scroll down once results are displayed
 			scroll();
             }
          });
 		return false;
 	};
-		cur_stop();
-		setInterval(cur_stop, 30000);
+		curStop();
+		setInterval(curStop, 30000);
 	});
 
 }

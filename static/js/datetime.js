@@ -3,11 +3,11 @@
 // Refresh both at regular interval
 
 // Get current time (24h format)
-var cur_time=function() {
+var curTime=function() {
 	var url ="/time";
 	$.ajax({
 		type:"GET",
-		url: url,
+		url,
 		success: function(result){
 		$("#heure").html(result);
 		}
@@ -16,15 +16,15 @@ var cur_time=function() {
 
 // Auto refresh time every min 
 $(document).ready(function() {
-	setInterval(cur_time, 60000);
+	setInterval(curTime, 60000);
 	});
 
 // Get date (dd/mm)
-var cur_date=function() {
+var curDate=function() {
 	var url ="/date";
 	$.ajax({
 		type:"GET",
-		url: url,
+		url,
 		success: function(result){
 		$("#date").html(result);
 		}
@@ -34,5 +34,5 @@ var cur_date=function() {
 // Auto refresh date every 2min
 // TODO: Find a better method 
 $(document).ready(function() {
-	setInterval(cur_date, 120000);
+	setInterval(curDate, 120000);
 	});
