@@ -14,15 +14,12 @@ import os
 # Detect current path and add db location to it
 current_dir = os.getcwd()
 path_to_db = current_dir + '/static/db/busomatic-db.sq3'
+con = sqlite3.connect(path_to_db)
 
 # Default web page returned by bottle
 @route('/')
 def index():
-        conn = sqlite3.connect(path_to_db)
-        cur = conn.cursor()
-	cur.execute('SELECT id_ligne, nom FROM lignes;')
-	lineList = cur.fetchall()
-        cur.close()
+	lineList = con.execute('SELECT id_ligne, nom FROM lignes')
 	weatherList = json.loads(weather.getWeather())
         condition = weatherList["meteo"]
         temp = weatherList["temp"]
@@ -36,21 +33,13 @@ def index():
 # Request direction list based on line choice
 @get('/direction/<id_ligne>', method='GET')
 def direction(id_ligne):
-        conn = sqlite3.connect(path_to_db)
-        cur = conn.cursor()
-	cur.execute('SELECT id_direction, nom FROM directions WHERE id_ligne=(?)', (id_ligne,))
-	dirList = cur.fetchall()
-        cur.close()
+	dirList = con.execute('SELECT id_direction, nom FROM directions WHERE id_ligne=?', id_ligne)
 	return template('directions', dirList=dirList)
 
 # Request stops based on direction choice
 @get('/arret/<id_direction>', method='GET')
 def arret (id_direction):
-        conn = sqlite3.connect(path_to_db)
-        cur = conn.cursor()
-	cur.execute('SELECT numero, nom FROM arrets WHERE id_direction=(?)', (id_direction,))
-	stopList = cur.fetchall()
-        cur.close()
+	stopList = con.execute('SELECT numero, nom FROM arrets WHERE id_direction=?', id_direction)
 	response.content_type = 'text/html;charset=utf8'
 	return template('stop', stopList=stopList)
 
