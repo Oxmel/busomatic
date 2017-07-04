@@ -41,10 +41,7 @@ def direction(id_ligne):
 	cur.execute('SELECT id_direction, nom FROM directions WHERE id_ligne=(?)', (id_ligne,))
 	dirList = cur.fetchall()
         cur.close()
-	return template("""<option>Direction</option>\n
-		% for id, name in dirList:\n 
-		<option value="{{id}}">{{name}}</option>\n 
-		%end""", dirList=dirList)
+	return template('directions', dirList=dirList)
 
 # Request stops based on direction choice
 @get('/arret/<id_direction>', method='GET')
@@ -55,24 +52,13 @@ def arret (id_direction):
 	stopList = cur.fetchall()
         cur.close()
 	response.content_type = 'text/html;charset=utf8'
-	return template("""<option>Arrêt</option>\n
-		% for id, name in stopList:\n 
-		<option value="{{id}}">{{name}}</option>\n 
-		%end""", stopList=stopList)
+	return template('stop', stopList=stopList)
 
 # Request schedule based on stop choice
 @get('/horaire/<id_arret>', method='GET')
 def horaires(id_arret):
 	timeList = busquery.horaire(id_arret)
-	return template("""
-		<tr>\n
-		</tr>\n
-	% for linename, linedir, linetime in timeList:\n
-		<tr>\n
-			<td id="line_name">{{linename}}</td>\n
-			<td id="line_direction">{{linedir}}</td>\n
-			<td id="line_schedule">{{linetime}}</td>\n
-		</tr>\n""",timeList=timeList)
+	return template('schedule', timeList=timeList)
 
 @get('/time')
 def heure():
