@@ -16,16 +16,16 @@ def database(query, *args):
     conn = sqlite3.connect(path_to_db)
     cur = conn.cursor()
     cur.execute(query, args)
-    testList = cur.fetchall()
+    response = cur.fetchall()
     cur.close
-    return testList
+    return response
 
 # Gather schedule for selected line
 def horaire(id_arret):
 	url = ('http://qr.t2c.fr/qrcode?_stop_id=' + id_arret)
-	readfile = urllib.urlopen(url)
-	soup = BeautifulSoup(readfile, from_encoding='utf-8')
-	timeList=[]
+	conn = urllib.urlopen(url)
+	soup = BeautifulSoup(conn, from_encoding='utf-8')
+	schedule=[]
 	# For each item in <tr> excepted the first one (junk)
 	for item in soup.find_all('tr')[1:]:
 		# For each item in <td> excepted the third
@@ -37,6 +37,6 @@ def horaire(id_arret):
 		# Get line schedule at specific stop
 		lineTime = lineInfo[2].get_text().strip()
 		# Create tuple with name, direction, schedule and add it in list
-		timeList.append((lineName,lineDir,lineTime))
-	readfile.close()
-	return timeList
+		schedule.append((lineName,lineDir,lineTime))
+	conn.close()
+	return schedule
