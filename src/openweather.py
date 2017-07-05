@@ -21,19 +21,17 @@ def getWeather():
         # Gather current weather
         conn = urllib.urlopen(url + options)
         # Read output and format it in json
-        weather_req = json.loads(conn.read())
+        weather = json.loads(conn.read())
         # Forecast
-        meteo = weather_req["weather"][0]["description"]
+        meteo = weather["weather"][0]["description"]
         # Temperature
-        temp = weather_req["main"]["temp"]
+        temp = weather["main"]["temp"]
         # Wind speed in meters per second
-        wind = weather_req["wind"]["speed"]
+        wind = weather["wind"]["speed"]
         # Convert wind speed from m/s to km/h and remove decimal
         wind = int((wind * 3600) / 1000)
     except KeyError :
         meteo=temp=wind = 'n/a'
 
-    result = ({'meteo': meteo, 'temp': temp, 'wind': wind})
-    return json.dumps(result)
-
-getWeather()
+    currentWeather = ({'meteo': meteo, 'temp': temp, 'wind': wind})
+    return json.dumps(currentWeather)
