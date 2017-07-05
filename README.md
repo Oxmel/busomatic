@@ -1,7 +1,7 @@
 # Bus'O'Matic
 
 [![Codacy Badge](https://img.shields.io/badge/code%20quality-B-brightgreen.svg)](https://www.codacy.com/app/Oxmel/busomatic?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Oxmel/busomatic&amp;utm_campaign=Badge_Grade)
-[![License Badge](https://img.shields.io/badge/Licence-GPLv3-brightgreen.svg)
+![License Badge](https://img.shields.io/badge/Licence-GPLv3-brightgreen.svg)
 
 Bus'O'Matic is designed to be a responsive web app. It allows to
 easily find bus schedules in real time in Clermont-Ferrand (France).
