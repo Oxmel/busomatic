@@ -11,7 +11,7 @@ forecastio-api-key
 
 # Ignore test files
 forecastio.py
-openweather.py
+testweather.py
 
 # Ignore sqlite db backups
 busomatic_bak.sq3
