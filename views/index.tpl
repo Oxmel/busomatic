@@ -10,7 +10,7 @@
 		<link href="/static/images/bus-icon-mobile.png" rel="icon" />
 		<link rel="stylesheet"type="text/css"href="/static/style/style.css"/>
 		<link rel="icon" type="image/png" href="/static/images/favicon.png"/>	
-		<script charset="utf-8" src="/static/js/jquery-1.11.2.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 		<script src="/static/js/datetime.js"></script>
 		<script src="/static/js/selectedline.js"></script>
 		<title>Bus'O'Matic</title>
