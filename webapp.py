@@ -14,9 +14,9 @@ import json
 def index():
 	lines = busquery.database('SELECT id_ligne, nom FROM lignes')
 	weather = json.loads(openweather.getWeather())
-        forecast = weather["meteo"]
-        temp = weather["temp"]
-        wind = weather["wind"]
+	forecast = weather["meteo"]
+	temp = weather["temp"]
+	wind = weather["wind"]
 	time = datetime.getTime()
 	date = datetime.getDate()
 	response.content_type = 'text/html;charset=utf8'
