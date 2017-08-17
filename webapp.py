@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-# Name : webapp.py
 # Bottle template for busomatic web app
 # Start standalone webserv if directly called (e.g python webapp.py)
-# Version : 0.2.3
+# Version : 0.2.4
 
 from bottle import route, run, template, static_file, response, get, default_app
 from src import busquery, datetime, openweather
