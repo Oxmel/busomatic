@@ -15,8 +15,8 @@ def getWeather():
 		# Path to openweather api
 		url = 'http://api.openweathermap.org/data/2.5/weather?'
 		# Encode options to pass them later into the query string
-		options = urllib.urlencode({'id': '3024635', 'units': 'metric', 
-									'appid': apiKey, 'lang': 'fr'})
+		options = urllib.urlencode({'id': '3024635', 
+			'units': 'metric', 'appid': apiKey, 'lang': 'fr'})
         # Gather current weather
 		conn = urllib.urlopen(url + options)
         # Read output and format it in json

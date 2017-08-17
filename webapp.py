@@ -19,18 +19,21 @@ def index():
 	time = datetime.getTime()
 	date = datetime.getDate()
 	response.content_type = 'text/html;charset=utf8'
-	return template('index', lines=lines, forecast=forecast, temp=temp, wind=wind, time=time, date=date)
+	return template('index', lines=lines, forecast=forecast,
+			temp=temp, wind=wind, time=time, date=date)
 
 # Request direction list based on line choice
 @get('/direction/<id_ligne>', method='GET')
 def direction(id_ligne):
-	directions = busquery.database('SELECT id_direction, nom FROM directions WHERE id_ligne=?', id_ligne)
+	directions = busquery.database("""SELECT id_direction,
+			nom FROM directions WHERE id_ligne=?""", id_ligne)
 	return template('directions', directions=directions)
 
 # Request stops based on direction choice
 @get('/arret/<id_direction>', method='GET')
 def arret (id_direction):
-	stops = busquery.database('SELECT numero, nom FROM arrets WHERE id_direction=?', id_direction)
+	stops = busquery.database("""SELECT numero,
+			nom FROM arrets WHERE id_direction=?""", id_direction)
 	response.content_type = 'text/html;charset=utf8'
 	return template('stop', stops=stops)
 
