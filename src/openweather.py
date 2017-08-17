@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 # Get forecast from openweathermap.org
 
-import os
 import urllib
 import json
 
@@ -31,7 +30,7 @@ def getWeather():
 		wind = int((wind * 3600) / 1000)
 	except IOError :
 		meteo=temp=wind = 'n/a'
-		print "Warning : Unable to fetch weather datas" 
+		print "Warning : Unable to fetch weather datas"
 		print "Please check '/src/api-key-readme' for more informations"
 		print
 
