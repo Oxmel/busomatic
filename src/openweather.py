@@ -14,19 +14,19 @@ def getWeather():
 		# Path to openweather api
 		url = 'http://api.openweathermap.org/data/2.5/weather?'
 		# Encode options to pass them later into the query string
-		options = urllib.urlencode({'id': '3024635', 
-			'units': 'metric', 'appid': apiKey, 'lang': 'fr'})
-        # Gather current weather
+		options = urllib.urlencode({'id': '3024635', 'units': 'metric',
+                                    'appid': apiKey, 'lang': 'fr'})
+		# Gather current weather
 		conn = urllib.urlopen(url + options)
-        # Read output and format it in json
+		# Read output and format it in json
 		weather = json.loads(conn.read())
-        # Forecast
+		# Forecast
 		meteo = weather["weather"][0]["description"]
-        # Temperature
+		# Temperature
 		temp = weather["main"]["temp"]
-        # Wind speed in meters per second
+		# Wind speed in meters per second
 		wind = weather["wind"]["speed"]
-        # Convert wind speed from m/s to km/h and remove decimal
+		# Convert wind speed from m/s to km/h and remove decimal
 		wind = int((wind * 3600) / 1000)
 	except IOError :
 		meteo=temp=wind = 'n/a'
