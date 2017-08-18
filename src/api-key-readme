@@ -1,6 +1,6 @@
-In order to display the weather datas, you need an api key :
+In order to display weather data, you need to :
 
-1) Sign up on http://openweathermap.org/ to get your own
+1) Sign up on http://openweathermap.org/ to get an api key
 
 2) Create a file in /src/ and name it 'weather-api-key'
 

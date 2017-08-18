@@ -6,7 +6,7 @@ import urllib
 import json
 
 def getWeather():
-	# Catching errors in case weather datas are not available
+	# Catching errors in case we can't fetch weather data
 	try :
 		# Open the file containing the api key in read only mode
 		keyPath = open('src/weather-api-key', 'r')
@@ -18,7 +18,6 @@ def getWeather():
                                     'appid': apiKey, 'lang': 'fr'})
 		# Gather current weather
 		conn = urllib.urlopen(url + options)
-		# Read output and format it in json
 		weather = json.loads(conn.read())
 		# Forecast
 		meteo = weather["weather"][0]["description"]
