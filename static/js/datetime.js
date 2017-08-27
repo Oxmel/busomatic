@@ -1,38 +1,38 @@
 // Name : datetime.js
-// Get time and date
-// Refresh both at regular interval
 
-// Get current time (24h format)
+// Get time (24h format)
 var curTime=function() {
-	var url ="/time";
-	$.ajax({
-		type:"GET",
-		url,
-		success: function(result){
-		$("#heure").html(result);
-		}
-	});
+	var now = new Date();
+	var hours = now.getHours();
+	var minutes = now.getMinutes();
+	if (hours < 10) {hours = "0" + hours;}
+	if (minutes < 10) {minutes = "0" + minutes;}
+	var time = hours + 'h' + minutes;
+	$("#heure").html(time);
+
 };
 
-// Auto refresh time every min 
-$(document).ready(function() {
-	setInterval(curTime, 60000);
-	});
-
-// Get date (dd/mm)
+// Get date (dayname/daynum/month format)
+// Translate current month and current dayname to fr
 var curDate=function() {
-	var url ="/date";
-	$.ajax({
-		type:"GET",
-		url,
-		success: function(result){
-		$("#date").html(result);
-		}
-	});
+	dicMonth = new Array("Janv.", "Fev.", "Mars", "Avr.", "Mai", "Juin",
+						"Juil.", "Août", "Sept.", "Oct.", "Nov.", "Déc.");
+	dicDay = new Array("Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.");
+	var now = new Date();
+	var dayNum = now.getUTCDate();
+	var day = now.getDay();
+	dayTest = dicDay[day];
+	var month = now.getUTCMonth();
+	var testMonth = dicMonth[month];
+	//if (day < 10) {day = "0" + day;}
+	$("#date").html(dayTest + ' ' + dayNum + ' ' + testMonth);
 };
 
-// Auto refresh date every 2min
-// TODO: Find a better method 
+
+// Display time and date when page is loaded
+// Auto refresh time every 60 seconds
 $(document).ready(function() {
-	setInterval(curDate, 120000);
+	curTime();
+	curDate();
+	setInterval(curTime, 60000);
 	});

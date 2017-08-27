@@ -2,10 +2,10 @@
 # -*- coding: UTF-8 -*-
 # Bottle template for busomatic web app
 # Start standalone webserv if directly called (e.g python webapp.py)
-# Version : 0.2.4
+# Version : 0.2.5
 
 from bottle import route, run, template, static_file, response, get, default_app
-from src import busquery, datetime, openweather
+from src import busquery, openweather
 import json
 
 # Default web page returned by bottle
@@ -16,11 +16,9 @@ def index():
 	forecast = weather["meteo"]
 	temp = weather["temp"]
 	wind = weather["wind"]
-	time = datetime.getTime()
-	date = datetime.getDate()
 	response.content_type = 'text/html;charset=utf8'
 	return template('index', lines=lines, forecast=forecast,
-			temp=temp, wind=wind, time=time, date=date)
+					temp=temp, wind=wind)
 
 # Request direction list based on line choice
 @get('/direction/<id_ligne>', method='GET')
@@ -42,16 +40,6 @@ def arret (id_direction):
 def horaires(id_arret):
 	schedules = busquery.horaire(id_arret)
 	return template('schedule', schedules=schedules)
-
-@get('/time')
-def heure():
-	getTime = datetime.getTime()
-	return template("{{time}}", time=getTime)
-
-@get('/date')
-def date():
-	getDate = datetime.getDate()
-	return template("{{date}}", date=getDate)
 
 # Paths to static files (scripts, images, stylesheet,...)
 @get('/static/<filename:path>')

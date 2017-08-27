@@ -51,9 +51,9 @@
 		<a name="suite"></a>
 		<p id="date_heure">
 			<img id="img_date" src="/static/images/calendar.png">
-			<span id="date">{{date}}</span>
+			<span id="date"></span>
 			<img id="img_heure" src="/static/images/clock.png">
-			<span id="heure">{{time}}</span>
+			<span id="heure"></span>
 		</p>
 		<p id="meteo">
 			<img src="/static/images/weather.png">
