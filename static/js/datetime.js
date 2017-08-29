@@ -7,7 +7,7 @@ var curTime=function() {
 	var minutes = now.getMinutes();
 	if (hours < 10) {hours = "0" + hours;}
 	if (minutes < 10) {minutes = "0" + minutes;}
-	var time = hours + 'h' + minutes;
+	var time = hours + "h" + minutes;
 	$("#heure").html(time);
 
 };
@@ -15,17 +15,20 @@ var curTime=function() {
 // Get date (dayname/daynum/month format)
 // Translate current month and current dayname to fr
 var curDate=function() {
-	dicMonth = new Array("Janv.", "Fev.", "Mars", "Avr.", "Mai", "Juin",
+	var dicMonth = new Array("Janv.", "Fev.", "Mars", "Avr.", "Mai", "Juin",
 						"Juil.", "Août", "Sept.", "Oct.", "Nov.", "Déc.");
-	dicDay = new Array("Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.");
+	var dicDay = new Array("Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.");
 	var now = new Date();
+	// Current day (numeric format)
 	var dayNum = now.getUTCDate();
+	// Current day of the week (0-6)
 	var day = now.getDay();
-	dayTest = dicDay[day];
+	var dayFr = dicDay[day];
+	// Current month (0-11)
 	var month = now.getUTCMonth();
-	var testMonth = dicMonth[month];
+	var monthFr = dicMonth[month];
 	//if (day < 10) {day = "0" + day;}
-	$("#date").html(dayTest + ' ' + dayNum + ' ' + testMonth);
+	$("#date").html(dayFr + " " + dayNum + " " + monthFr);
 };
 
 
