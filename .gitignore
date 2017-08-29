@@ -15,3 +15,6 @@ testweather.py
 
 # Ignore sqlite db backups
 busomatic_bak.sq3
+
+# Ignore backup files
+*.bak
