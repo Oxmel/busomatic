@@ -20,60 +20,42 @@
 	// Clean url and send back to start page
 	function refresh(){
 	var sURL = unescape(window.location.pathname);
-	window.location.replace( sURL );
+	window.location.replace(sURL);
 	}
 
- function init() {
-
+function init() {
 
 	// Direction request for selected line, send result to selectdir function
 	$("#selectline").change(function() {
-		var linetarget = document.getElementById("selectline");
-		var selectedline = linetarget.options[linetarget.selectedIndex].value;
+		var selectedLine = $("#selectline").val();
 		var url ="/direction/";
-		var directions = url+selectedline;
-		$.ajax({
-		type:"GET",
-            url: directions,
-            success: function(retour){
-            $("#selectdir").html(retour);
-            }
-         });
-		return false;
+		var directions = url + selectedLine;
+		$.get(directions, function(dirList) {
+			$("#selectdir").html(dirList);
+		});
 	});
 
 	// Stop request for selected direction, send result to selecstop function
 	$("#selectdir").change(function() {
-		var dirtarget = document.getElementById("selectdir");
-		var selecteddir = dirtarget.options[dirtarget.selectedIndex].value;
+		var selectedDir = $("#selectdir").val();
 		var url ="/arret/";
-		var arrets = url+selecteddir;
-		 $.ajax({
-		type:"GET",
-            url: arrets,
-            success: function(retour){
-            $("#selectstop").html(retour);
-            }
-         });
-		return false;
-
+		var arrets = url + selectedDir;
+		$.get(arrets, function(stopList) {
+			$("#selectstop").html(stopList);
+		});
 	});
 
 	// Schedule request for selected stop, send result to "printstop" table
 	$("#selectstop").change(function() {
 		var curStop=function(){
-		var stoptarget = document.getElementById("selectstop");
-		var stop_name = stoptarget.options[stoptarget.selectedIndex].text;
-		var selectedstop = stoptarget.options[stoptarget.selectedIndex].value;
+		var stopName = $("#selectstop option:selected").text();
+		var selectedStop = $("#selectstop").val();
 		var url ="/horaire/";
-		var horaires = url+selectedstop;
-		 $.ajax({
-		type:"GET",
-            url: horaires,
-            success: function(retour){
+		var horaires = url + selectedStop;
+		$.get(horaires, function(schedule) {
 			// Sending results to the table element
-            $("#printstop").html(retour);
-			$("#stop_name").html(stop_name);
+            $("#printstop").html(schedule);
+			$("#stop_name").html(stopName);
 			// Hide menu and header, keep footer visible
 			$("#banniere").css("display", "none");
 			$("#menu").css("display", "none");
@@ -82,17 +64,13 @@
 			$("#bouton").css("display", "table-row");
 			// Scroll down once results are displayed
 			scroll();
-            }
-         });
-		return false;
-	};
+        });
+		};
 		curStop();
 		setInterval(curStop, 30000);
 	});
 
-}
+};
 
 // Initializing script on page load
 window.onload = init;
-
-
