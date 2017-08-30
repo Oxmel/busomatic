@@ -70,7 +70,7 @@ function init() {
         setInterval(curStop, 30000);
     });
 
-};
+}
 
 // Initializing script on page load
 window.onload = init;
