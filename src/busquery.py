@@ -29,14 +29,14 @@ def horaire(id_arret):
     # For each item in <tr> excepted the first one (junk)
     for item in soup.find_all('tr')[1:]:
         # For each item in <td> excepted the third
-        lineInfo = item.find_all('td')[:3]
+        line_info = item.find_all('td')[:3]
         # Get line name
-        lineName = lineInfo[0].get_text().strip()
+        line_name = line_info[0].get_text().strip()
         # Get line direction
-        lineDir = lineInfo[1].get_text().strip()
+        line_dir = line_info[1].get_text().strip()
         # Get line schedule at specific stop
-        lineTime = lineInfo[2].get_text().strip()
+        line_time = line_info[2].get_text().strip()
         # Create tuple with name, direction, schedule and add it in list
-        schedule.append((lineName,lineDir,lineTime))
+        schedule.append((line_name,line_dir,line_time))
     conn.close()
     return schedule

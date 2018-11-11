@@ -9,13 +9,13 @@ def getWeather():
     # Catching errors in case we can't fetch weather data
     try :
         # Open the file containing the api key in read only mode
-        keyPath = open('src/weather-api-key', 'r')
-        apiKey = keyPath.read().strip('\n')
+        key_path = open('src/weather-api-key', 'r')
+        api_key = key_path.read().strip('\n')
         # Path to openweather api
         url = 'http://api.openweathermap.org/data/2.5/weather?'
         # Encode options to pass them later into the query string
         options = urllib.urlencode({'id': '3024635', 'units': 'metric',
-                                    'appid': apiKey, 'lang': 'fr'})
+                                    'appid': api_key, 'lang': 'fr'})
         # Gather current weather
         conn = urllib.urlopen(url + options)
         weather = json.loads(conn.read())
@@ -33,5 +33,5 @@ def getWeather():
         print "Please check '/src/api-key-readme' for more informations"
         print
 
-    currentWeather = ({'meteo': meteo, 'temp': temp, 'wind': wind})
-    return json.dumps(currentWeather)
+    current_weather = ({'meteo': meteo, 'temp': temp, 'wind': wind})
+    return json.dumps(current_weather)
