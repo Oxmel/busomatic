@@ -9,7 +9,7 @@
         <link href="/static/images/bus-icon-mobile.png" rel="apple-touch-icon" />
         <link href="/static/images/bus-icon-mobile.png" rel="icon" />
         <link rel="stylesheet"type="text/css"href="/static/style/style.css"/>
-        <link rel="icon" type="image/png" href="/static/images/favicon.png"/>   
+        <link rel="icon" type="image/png" href="/static/images/favicon.png"/>
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script src="/static/js/datetime.js"></script>
         <script src="/static/js/selectedline.js"></script>
@@ -18,7 +18,7 @@
 
 <body>
     <!-- Hide url bar on mobile devices to show in full screen -->
-    <!-- <script>window.scrollTo(0,1)</script --> 
+    <!-- <script>window.scrollTo(0,1)</script -->
 
 <!-- Global container -->
 <div id="page">
@@ -31,7 +31,7 @@
     <!-- Select line menu -->
     <div id="menu">
         <select id="selectline">
-            <option>Ligne</option>  
+            <option>Ligne</option>
         % for id, name in lines:
             <option value="{{id}}">
             {{name}}
@@ -59,12 +59,12 @@
             <img src="/static/images/weather.png">
             <span id="temps">{{forecast}}</span>
             <img src="/static/images/thermometer.png">
-            <span id="temperature">{{temp}}°C</span> 
+            <span id="temperature">{{temp}}°C</span>
             <img src="/static/images/wind.png">
             <span id="vent">{{wind}}km/h</span>
         </p>
     </div>
-    
+
     <!-- Results table -->
     <div id="tableau">
         <div id="table_header">
@@ -74,7 +74,7 @@
         <table id="printstop" align="center">
         </table>
     </div>
-    
+
     <!-- Reset button, send back to start page -->
     <div id="bouton">
         <button id="refresher" onclick="refresh()">Nouvelle Recherche</button>
