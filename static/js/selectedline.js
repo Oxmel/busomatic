@@ -25,37 +25,37 @@
 
 function init() {
 
-    // Direction request for selected line, send result to selectdir function
-    $("#selectline").change(function() {
-        var selectedLine = $("#selectline").val();
+    // Direction request for selected line, send result to selectDir function
+    $("#selectLine").change(function() {
+        var selectedLine = $("#selectLine").val();
         var url ="/direction/";
         var directions = url + selectedLine;
         $.get(directions, function(dirList) {
-            $("#selectdir").html(dirList);
+            $("#selectDir").html(dirList);
         });
     });
 
     // Stop request for selected direction, send result to selecstop function
-    $("#selectdir").change(function() {
-        var selectedDir = $("#selectdir").val();
+    $("#selectDir").change(function() {
+        var selectedDir = $("#selectDir").val();
         var url ="/arret/";
         var arrets = url + selectedDir;
         $.get(arrets, function(stopList) {
-            $("#selectstop").html(stopList);
+            $("#selectStop").html(stopList);
         });
     });
 
-    // Schedule request for selected stop, send result to "printstop" table
-    $("#selectstop").change(function() {
+    // Schedule request for selected stop, send result to "printStop" table
+    $("#selectStop").change(function() {
         var curStop=function(){
-        var stopName = $("#selectstop option:selected").text();
-        var selectedStop = $("#selectstop").val();
+        var stopName = $("#selectStop option:selected").text();
+        var selectedStop = $("#selectStop").val();
         var url ="/horaire/";
         var horaires = url + selectedStop;
         $.get(horaires, function(schedule) {
             // Sending results to the table element
-            $("#printstop").html(schedule);
-            $("#stop_name").html(stopName);
+            $("#printStop").html(schedule);
+            $("#stopName").html(stopName);
             // Hide menu and header, keep footer visible
             $("#banniere").css("display", "none");
             $("#menu").css("display", "none");
