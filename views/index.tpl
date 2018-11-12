@@ -30,7 +30,7 @@
 
     <!-- Select line menu -->
     <div id="menu">
-        <select id="selectline">
+        <select id="selectLine">
             <option>Ligne</option>
         % for id, name in lines:
             <option value="{{id}}">
@@ -38,10 +38,10 @@
             </option>
         %end
         </select>
-        <select id="selectdir">
+        <select id="selectDir">
             <option>Direction</option>
         </select>
-        <select id="selectstop">
+        <select id="selectStop">
             <option>Arrêt</option>
         </select>
     </div>
@@ -69,9 +69,9 @@
     <div id="tableau">
         <div id="table_header">
             <img id="stop_img" src="/static/images/bus_stop.png">
-            <span id="stop_name"></span>
+            <span id="stopName"></span>
         </div>
-        <table id="printstop" align="center">
+        <table id="printStop" align="center">
         </table>
     </div>
 

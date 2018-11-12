@@ -57,7 +57,7 @@ select {
     font-size:1em;
 }
 
-#selectline, #selectdir {
+#selectLine, #selectDir {
     margin-bottom:30px;
 }
 
@@ -122,7 +122,7 @@ select {
     vertical-align:-17px;
 }
 
-#stop_name{
+#stopName{
     color:#FFFFFF;
     font-family:champagne;
     font-size:1.1em;
