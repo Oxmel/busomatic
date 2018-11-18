@@ -44,6 +44,7 @@ div#menu {
 }
 
 /* Display block for fixed width. Looks better on desktop screens */
+/* text-align doesn't work on chrome browsers but text-align-last does */
 select {
     display:block;
     font-family:champagne;
@@ -52,6 +53,7 @@ select {
     margin-right:auto;
     height:40px;
     text-align:center;
+    text-align-last:center;
     width:55%;
     max-width:300px;
     font-size:1em;
