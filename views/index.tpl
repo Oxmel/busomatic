@@ -36,7 +36,7 @@
             <option value="{{id}}">
             {{name}}
             </option>
-        %end
+        % end
         </select>
         <select id="selectDir">
             <option>Direction</option>
