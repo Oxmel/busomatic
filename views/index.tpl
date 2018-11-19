@@ -57,7 +57,7 @@
         </p>
         <p id="meteo">
             <img src="/static/images/weather.png">
-            <span id="temps">{{forecast}}</span>
+            <span id="temps">{{weather}}</span>
             <img src="/static/images/thermometer.png">
             <span id="temperature">{{temp}}°C</span>
             <img src="/static/images/wind.png">

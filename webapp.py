@@ -12,12 +12,12 @@ import json
 @route('/')
 def index():
     lines = busquery.database('SELECT id_ligne, nom FROM lignes')
-    weather = json.loads(openweather.getWeather())
-    forecast = weather["meteo"]
-    temp = weather["temp"]
-    wind = weather["wind"]
+    forecast = json.loads(openweather.forecast())
+    weather = forecast["weather"]
+    temp = forecast["temp"]
+    wind = forecast["wind"]
     response.content_type = 'text/html;charset=utf8'
-    return template('index', lines=lines, forecast=forecast,
+    return template('index', lines=lines, weather=weather,
                     temp=temp, wind=wind)
 
 # Request direction list based on line choice
