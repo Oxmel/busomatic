@@ -1,5 +1,5 @@
 # Bus'O'Matic
-![Python Version](https://img.shields.io/badge/python-2.7-yellow.svg)
+![Python Version](https://img.shields.io/badge/python-2.7-orange.svg)
 [![Codacy Badge](https://img.shields.io/badge/code%20quality-B-brightgreen.svg)](https://www.codacy.com/app/Oxmel/busomatic?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Oxmel/busomatic&amp;utm_campaign=Badge_Grade)
 ![License Badge](https://img.shields.io/badge/license-GPLv3-blue.svg)
 
