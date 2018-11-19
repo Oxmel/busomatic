@@ -23,6 +23,8 @@ def getWeather():
         meteo = weather["weather"][0]["description"]
         # Temperature
         temp = weather["main"]["temp"]
+        # We make sure the returned value is always an integer
+        temp = int(temp)
         # Wind speed in meters per second
         wind = weather["wind"]["speed"]
         # Convert wind speed from m/s to km/h and remove decimal
