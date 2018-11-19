@@ -4,4 +4,4 @@
         <td id="line_direction">{{linedir}}</td>
         <td id="line_schedule">{{linetime}}</td>
     </tr>
-
+% end
