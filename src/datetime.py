@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+#
 # Name : datetime.py
-# Get time (24h format) and date, translate date result to French
+# Get current time and date, translate date to French
+
 import time
 import os
 
@@ -9,7 +11,7 @@ import os
 os.environ['TZ'] = 'Europe/Paris'
 time.tzset()
 
-# Request time
+# Request time (24h format)
 def getTime():
     cur_time=time.strftime('%Hh%M')
     return cur_time

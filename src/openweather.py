@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+#
+# Name : openweather.py
 # Get forecast from openweathermap.org
+# An api key is required, see 'api-key-readme' for more infos
 
 import urllib
 import json
@@ -16,14 +19,14 @@ def forecast():
         # Encode options to pass them later into the query string
         options = urllib.urlencode({'id': '3024635', 'units': 'metric',
                                     'appid': api_key, 'lang': 'fr'})
-        # Gather current weather
+        # Get current forecast
         conn = urllib.urlopen(url + options)
         forecast = json.loads(conn.read())
-        # Forecast
+        # Weather
         weather = forecast["weather"][0]["description"]
         # Temperature
         temp = forecast["main"]["temp"]
-        # We make sure the returned value is always an integer
+        # Remove decimal in case the value returned is a float
         temp = int(temp)
         # Wind speed in meters per second
         wind = forecast["wind"]["speed"]
