@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 # The sqlite database is not located in this folder or any subfolder
 # So we need to manually construct the full path to the db
 # https://stackoverflow.com/a/14150750
-path_to_db = os.path.abspath(__file__ + '/../../static/db/busomatic-db.sq3')
+path_to_db = os.path.abspath(__file__ + '/../../db/busomatic-db.sq3')
 
 # Perform db calls using either static sql queries or queries with variables
 def database(query, *args):
