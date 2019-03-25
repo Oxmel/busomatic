@@ -9,19 +9,6 @@ This is achieved by using (#'item_name').css('display', 'none')
 Other methods using jquery can be found at 'api.jquery.com/hide'
 */
 
-    // Auto scroll to the anchor named 'suite'
-    // Activated after the user has selected a stop
-    function scroll() {
-    var url=location.href;
-    location.href="#suite";
-    }
-
-    // Action on button 'Nouvelle recherche'
-    // Clean url and send back to start page
-    function refresh(){
-    var sURL = unescape(window.location.pathname);
-    window.location.replace(sURL);
-    }
 
 function init() {
 
@@ -64,8 +51,6 @@ function init() {
                 // Show table and refresh button
                 $("#tableau").css("display", "flex");
                 $("#bouton").css("display", "flex");
-                // Scroll down once results are displayed
-                scroll();
             });
         };
         curStop();

@@ -71,7 +71,7 @@
 
     <!-- Reset button, send back to start page -->
     <div id="bouton">
-        <button id="refresher" onclick="refresh()">Nouvelle Recherche</button>
+        <button id="refresher" onclick="location.href='/'">Nouvelle Recherche</button>
     </div>
 
 <!-- div of "page" -->
