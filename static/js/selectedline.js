@@ -62,8 +62,8 @@ function init() {
             $("#banniere").css("display", "none");
             $("#menu").css("display", "none");
             // Show table and refresh button
-            $("#tableau").css("display", "table-cell");
-            $("#bouton").css("display", "table-row");
+            $("#tableau").css("display", "flex");
+            $("#bouton").css("display", "flex");
             // Scroll down once results are displayed
             scroll();
         });

@@ -2,148 +2,131 @@
 Busomatic webapp stylesheet
 */
 
-html, body {
-    margin: 0;
-    padding: 0;
-    height:100%;
+
+* {
+  box-sizing: border-box;
 }
+
 
 @font-face {
     font-family: champagne;
-    src:url('/static/font/champagne_bold.ttf') format('truetype');
+    src: url('/static/font/champagne_bold.ttf') format('truetype');
 }
 
 
-
-div#page {
-    display:table;
-    height:100%;
-    width:100%;
+body {
+    margin: 0;
+    font-family: champagne;
 }
 
-#banniere {
-    display:table-row;
-    text-align:center;
-    vertical-align:middle;
-    height:70px;
-    line-height:70px;
-    background-color:#0795f8;
+
+.center-items {
+  align-items: center;
+  justify-content: center;
 }
 
-#titre {
-    color:#FFFFFF;
-    font-size:2.3em;
-    font-family:champagne;
+
+.vert-center {
+  justify-content: center;
 }
 
-div#menu {
-    display: table-cell;
-    height:100%;
-    vertical-align:middle;
-    text-align:center;
+
+.no-border {
+  border: 0;
 }
 
-/* Display block for fixed width. Looks better on desktop screens */
+
+.border-bottom {
+  border-bottom: 1px solid white;
+}
+
+
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.banner {
+    color: #FFFFFF;
+    background-color: #0795F8;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.site-title {
+    height: 70px;
+    font-size: 2.3em;
+}
+
+
+.menu {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+}
+
+
 /* text-align doesn't work on chrome browsers but text-align-last does */
-select {
-    display:block;
-    font-family:champagne;
-    color:#555555;
-    margin-left:auto;
-    margin-right:auto;
-    height:40px;
-    text-align:center;
-    text-align-last:center;
-    width:55%;
-    max-width:300px;
-    font-size:1em;
-}
-
-#selectLine, #selectDir {
-    margin-bottom:30px;
+.menu select {
+    color: #555555;
+    height: 40px;
+    text-align: center;
+    text-align-last: center;
+    width: 55%;
+    max-width: 300px;
+    font-size: 1em;
+    margin-bottom: 30px;
 }
 
 
-#footer{
-    display: table-row;
-    text-align:center;
-    height:90px;
-    max-height:90px;
-    background-color:#0795f8;
+.menu select:last-child {
+    margin-bottom: 0;
 }
 
-#footer img {
-    height:45px;
-    width:45px;
-    margin:0;
-    vertical-align:middle;
+
+.info-block {
+    height: 45px;
+    font-size: 0.9em;
 }
 
-#date_heure {
-    margin:0;
-    color:#FFFFFF;
-    font-family:champagne;
+
+.info-block img {
+    height: 45px;
+    width: 45px;
+    vertical-align: middle;
 }
 
-#meteo{
-    border-top:1px solid white;
-    color:#FFFFFF;
-    font-size:0.9em;
-    margin:0;
-    font-family:champagne;
-
-}
 
 #tableau {
-    display:none;
-    height:100%;
-    text-align:center;
-    vertical-align:middle;
+    display: none;
+    flex: auto;
+    flex-direction: column;
+    justify-content: center;
 }
 
-#tableau table
-{
+
+table {
     border-collapse:collapse;
-    text-align:center;
     font-size:large;
     width:100%;
 }
 
 
-#table_header {
-    background-color:#0795f8;
-    width:100%;
-    text-align:center;
-}
 
-
-#stop_img {
-    height:46px;
-    width:46px;
-    margin-left:-14px;
-    vertical-align:-17px;
-}
-
-#stopName{
-    color:#FFFFFF;
-    font-family:champagne;
-    font-size:1.1em;
-}
-
-#tableau th
-{
+#tableau th {
     background-color:#0795f8;
     color:#FFFFFF;
     height:40px;
     font-size:1em;
-    font-family:champagne;
 }
-#tableau td
-{
+
+#tableau td {
     text-align:center;
     padding-top: 1px;
     padding-bottom:1px;
-    font-family:champagne;
     color:#555555;
     font-size:1em;
 }
@@ -161,13 +144,11 @@ select {
     text-overflow: ellipsis;
 }
 
-#bouton
-{
+#bouton {
     display:none;
-    text-align:center;
     height:30px;
-    line-height:30px;
-    vertical-align:middle;
+    align-items: center;
+    justify-content: center;
 }
 
 #refresher
@@ -175,7 +156,6 @@ select {
     background-color:#0795f8;
     color:#FFFFFF;
     font-size:1.1em;
-    font-family:champagne;
     border:0;
 
 }

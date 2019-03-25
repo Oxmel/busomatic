@@ -21,22 +21,20 @@
     <!-- <script>window.scrollTo(0,1)</script -->
 
 <!-- Global container -->
-<div id="page">
+<div class="container">
 
     <!-- Banner -->
-    <div id="banniere">
-        <span id="titre">Bus 'O' Matic</span>
+    <div id="banniere" class="banner site-title center-items">
+        <span>Bus 'O' Matic</span>
     </div>
 
     <!-- Select line menu -->
-    <div id="menu">
+    <div id="menu" class="menu center-items">
         <select id="selectLine">
             <option>Ligne</option>
-        % for id, name in lines:
-            <option value="{{id}}">
-            {{name}}
-            </option>
-        % end
+            % for id, name in lines:
+            <option value="{{id}}">{{name}}</option>
+            % end
         </select>
         <select id="selectDir">
             <option>Direction</option>
@@ -46,33 +44,29 @@
         </select>
     </div>
 
-    <!-- Floating  menu -->
-    <div id="footer">
-        <a name="suite"></a>
-        <p id="date_heure">
-            <img id="img_date" src="/static/images/calendar.png">
-            <span id="date"></span>
-            <img id="img_heure" src="/static/images/clock.png">
-            <span id="heure"></span>
-        </p>
-        <p id="meteo">
-            <img src="/static/images/weather.png">
-            <span id="temps">{{weather}}</span>
-            <img src="/static/images/thermometer.png">
-            <span id="temperature">{{temp}}°C</span>
-            <img src="/static/images/wind.png">
-            <span id="vent">{{wind}}km/h</span>
-        </p>
+
+    <div class="banner info-block border-bottom center-items">
+            <img src="/static/images/calendar.png" /><span id="date"></span>
+            <img src="/static/images/clock.png" /><span id="heure"></span>
     </div>
+
+    <div class="banner info-block center-items">
+            <img src="/static/images/weather.png" /><span>{{weather}}</span>
+            <img src="/static/images/thermometer.png" /><span>{{temp}}°C</span>
+            <img src="/static/images/wind.png" /><span>{{wind}}km/h</span>
+    </div>
+
 
     <!-- Results table -->
     <div id="tableau">
-        <div id="table_header">
-            <img id="stop_img" src="/static/images/bus_stop.png">
-            <span id="stopName"></span>
+
+        <div class="banner info-block center-items">
+            <img src="/static/images/bus_stop.png" /><span id="stopName"></span>
         </div>
-        <table id="printStop" align="center">
+
+        <table id="printStop">
         </table>
+
     </div>
 
     <!-- Reset button, send back to start page -->
