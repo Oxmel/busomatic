@@ -50,23 +50,23 @@ function init() {
     // Request schedule for selected stop, send result to 'printStop' table
     $("#selectStop").change(function() {
         var curStop=function(){
-        var stopName = $("#selectStop option:selected").text();
-        var selectedStop = $("#selectStop").val();
-        var url ="/horaire/";
-        var horaires = url + selectedStop;
-        $.get(horaires, function(schedule) {
-            // Sending results to the table element
-            $("#printStop").html(schedule);
-            $("#stopName").html(stopName);
-            // Hide menu and header, keep footer visible
-            $("#banniere").css("display", "none");
-            $("#menu").css("display", "none");
-            // Show table and refresh button
-            $("#tableau").css("display", "flex");
-            $("#bouton").css("display", "flex");
-            // Scroll down once results are displayed
-            scroll();
-        });
+            var stopName = $("#selectStop option:selected").text();
+            var selectedStop = $("#selectStop").val();
+            var url ="/horaire/";
+            var horaires = url + selectedStop;
+            $.get(horaires, function(schedule) {
+                // Sending results to the table element
+                $("#printStop").html(schedule);
+                $("#stopName").html(stopName);
+                // Hide menu and header, keep footer visible
+                $("#banniere").css("display", "none");
+                $("#menu").css("display", "none");
+                // Show table and refresh button
+                $("#tableau").css("display", "flex");
+                $("#bouton").css("display", "flex");
+                // Scroll down once results are displayed
+                scroll();
+            });
         };
         curStop();
         setInterval(curStop, 30000);
