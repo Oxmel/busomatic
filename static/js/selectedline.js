@@ -46,11 +46,9 @@ function init() {
                 $("#printStop").html(schedule);
                 $("#stopName").html(stopName);
                 // Hide menu and header, keep footer visible
-                $("#banniere").css("display", "none");
-                $("#menu").css("display", "none");
+                $(".hide-on-result").css("display", "none");
                 // Show table and refresh button
-                $("#tableau").css("display", "flex");
-                $("#bouton").css("display", "flex");
+                $(".show-on-result").css("display", "flex");
             });
         };
         curStop();

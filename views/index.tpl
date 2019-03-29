@@ -24,12 +24,12 @@
 <div class="container">
 
     <!-- Banner -->
-    <div id="banniere" class="banner site-title center-items">
+    <div id="site-title" class="banner center-items hide-on-result">
         <span>Bus 'O' Matic</span>
     </div>
 
-    <!-- Select line menu -->
-    <div id="menu" class="menu center-items">
+    <!-- Select menu -->
+    <div id="menu" class="center-items hide-on-result">
         <select id="selectLine">
             <option>Ligne</option>
             % for id, name in lines:
@@ -58,7 +58,7 @@
 
 
     <!-- Results table -->
-    <div id="tableau">
+    <div id="result-table" class="show-on-result">
 
         <div class="banner info-block center-items">
             <img src="/static/images/bus_stop.png" /><span id="stopName"></span>
@@ -70,11 +70,11 @@
     </div>
 
     <!-- Reset button, send back to start page -->
-    <div id="bouton">
+    <div id="button" class="show-on-result">
         <button id="refresher" onclick="location.href='/'">Nouvelle Recherche</button>
     </div>
 
-<!-- div of "page" -->
+<!-- container div -->
 </div>
 
 </body>
