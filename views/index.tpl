@@ -30,16 +30,16 @@
 
     <!-- Select menu -->
     <div id="menu" class="center-items hide-on-result">
-        <select id="selectLine">
+        <select id="select-line">
             <option>Ligne</option>
             % for id, name in lines:
             <option value="{{id}}">{{name}}</option>
             % end
         </select>
-        <select id="selectDir">
+        <select id="select-route">
             <option>Direction</option>
         </select>
-        <select id="selectStop">
+        <select id="select-stop">
             <option>Arrêt</option>
         </select>
     </div>
@@ -61,10 +61,10 @@
     <div id="result-table" class="show-on-result">
 
         <div class="banner info-block center-items">
-            <img src="/static/images/bus_stop.png" /><span id="stopName"></span>
+            <img src="/static/images/bus_stop.png" /><span id="stop-name"></span>
         </div>
 
-        <table id="printStop">
+        <table id="print-stop">
         </table>
 
     </div>

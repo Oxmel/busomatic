@@ -122,18 +122,18 @@ table td {
 }
 
 
-#stopName{
+#stop-name{
     font-size:1.1em;
 }
 
 
-#line_name, #line_schedule {
+#line-name, #line-schedule {
     width:10%;
 }
 
 
 /* TODO: auto cut if name's too long */
-#line_direction {
+#line-direction {
     width:80%;
     overflow: hidden;
     white-space: nowrap;
