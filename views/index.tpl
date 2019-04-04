@@ -26,7 +26,7 @@
       </div>
 
       <!-- Select menu -->
-      <div id="menu" class="center-items hide-on-result">
+      <div id="menu" class="center-items hide-on-result noselect">
         <select id="select-line">
           <option>Ligne</option>
           % for id, name in lines:
@@ -61,7 +61,7 @@
       </div>
 
       <!-- Reset button, send back to start page -->
-      <div id="button" class="show-on-result">
+      <div id="button" class="show-on-result noselect">
         <button id="refresher" onclick="location.href='/'">Nouvelle Recherche</button>
       </div>
 

@@ -14,6 +14,22 @@ Busomatic webapp stylesheet
 }
 
 
+/*
+On mobile devices, text selection is sometimes triggered
+when tapping blank areas around menu or buttons, so we disable it
+Note that this bug seems to only appear when using display:flex
+Reference: https://stackoverflow.com/a/11237968/9598957
+*/
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+
 body {
     margin: 0;
     font-family: champagne;
