@@ -29,7 +29,7 @@ def database(query, *args):
 def horaire(id_arret):
     url = ('http://qr.t2c.fr/qrcode?_stop_id=' + id_arret)
     conn = urllib.urlopen(url)
-    soup = BeautifulSoup(conn, from_encoding='utf-8')
+    soup = BeautifulSoup(conn, 'lxml', from_encoding='utf-8')
     schedule=[]
     # We skip the first table row as it doesn't contain anything relevant
     for item in soup.find_all('tr')[1:]:
