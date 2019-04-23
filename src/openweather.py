@@ -39,4 +39,4 @@ def forecast():
         print
 
     forecast = ({'weather': weather, 'temp': temp, 'wind': wind})
-    return json.dumps(forecast)
+    return forecast

@@ -6,13 +6,12 @@
 
 from bottle import route, run, template, static_file, response, get, default_app
 from src import busquery, openweather
-import json
 
 # Default page returned when calling the base url
 @route('/')
 def index():
     lines = busquery.database('SELECT id_ligne, nom FROM lignes')
-    forecast = json.loads(openweather.forecast())
+    forecast = openweather.forecast()
     weather = forecast["weather"]
     temp = forecast["temp"]
     wind = forecast["wind"]
