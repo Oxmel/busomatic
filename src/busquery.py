@@ -1,17 +1,42 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-#
-# Name : busquery.py
 
-import os
-import sqlite3
-import urllib
-from bs4 import BeautifulSoup
 
-# The sqlite database is not located in this folder or any subfolder
-# So we need to manually construct the full path to the db
-# https://stackoverflow.com/a/14150750
-path_to_db = os.path.abspath(__file__ + '/../../db/busomatic-db.sq3')
+from urllib2 import Request, urlopen
+import json
+
+
+# Check if navitia token has been set up
+try :
+    # Open the file containing the token in read only mode
+    token_location = open('src/navitia-token', 'r')
+    token = token_location.read().strip('\n')
+except IOError :
+    print "Warning: This app requires a token to access navitia api"
+    print "Please check /src/navitia-token-readme for more informations"
+
+
+# Generic function to perform api calls and make the json response readable
+def query_data(url):
+    req = Request(url)
+    req.add_header('Authorization', token)
+    response = urlopen(req).read()
+    data = json.loads(response)
+    return data
+
+
+def get_lines():
+    url = "https://api.navitia.io/v1/coverage/fr-se/networks/network:T2C/lines?count=500"
+    data = query_data(url)
+    lines_list = []
+    for line in data['lines']:
+        line_name = line['code']
+        line_id = line['id']
+        # Position of the current line in the list
+        index = data['lines'].index(line)
+        lines_list.append((line_id,line_name))
+    return lines_list
+
 
 # Perform db calls using either static sql queries or queries with variables
 def database(query, *args):
@@ -21,6 +46,7 @@ def database(query, *args):
     response = cur.fetchall()
     cur.close
     return response
+
 
 # Gather schedule for selected stop
 # The infos we're looking for (line name, direction, passage time) are

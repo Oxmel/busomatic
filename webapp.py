@@ -10,7 +10,7 @@ from src import busquery, openweather
 # Default page returned when calling the base url
 @route('/')
 def index():
-    lines = busquery.database('SELECT id_ligne, nom FROM lignes')
+    lines = busquery.get_lines()
     forecast = openweather.forecast()
     weather = forecast["weather"]
     temp = forecast["temp"]
