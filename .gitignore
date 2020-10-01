@@ -1,20 +1,4 @@
-# Ignored files list
+# List of ignored files
 *.pyc
-*.sh
-
-# Ignore virtual env
-busomatic-env/
-
-# Ignore sensitive files
 weather-api-key
-forecastio-api-key
-
-# Ignore test files
-forecastio.py
-testweather.py
-
-# Ignore sqlite db backups
-busomatic_bak.sq3
-
-# Ignore backup files
-*.bak
+navitia-token
