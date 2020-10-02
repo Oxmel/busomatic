@@ -35,7 +35,7 @@ def arret (id_direction):
 # Request schedule for a given stop
 @get('/horaire/<id_arret>', method='GET')
 def horaires(id_arret):
-    schedules = busquery.horaire(id_arret)
+    schedules = busquery.get_schedule(id_arret)
     return template('schedule', schedules=schedules)
 
 # Paths to static files (scripts, images, stylesheet,...)

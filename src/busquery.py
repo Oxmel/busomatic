@@ -57,6 +57,18 @@ def get_stops(route_id):
     return stops_list
 
 
+def get_schedule(stop_id):
+    url = "https://api.navitia.io/v1/coverage/fr-se/stop_points/%s/departures?count=10" %stop_id
+    schedule = query_data(url)
+    schedules = []
+    for stop_schedule in schedule['departures']:
+        line_name = stop_schedule['display_informations']['code']
+        line_route = stop_schedule['display_informations']['trip_short_name']
+        line_time = stop_schedule['stop_date_time']['arrival_date_time']
+        schedules.append((line_name, line_route, line_time))
+    return schedules
+
+
 # Perform db calls using either static sql queries or queries with variables
 def database(query, *args):
     conn = sqlite3.connect(path_to_db)
