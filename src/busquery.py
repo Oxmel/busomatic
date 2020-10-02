@@ -32,10 +32,29 @@ def get_lines():
     for line in data['lines']:
         line_name = line['code']
         line_id = line['id']
-        # Position of the current line in the list
-        index = data['lines'].index(line)
         lines_list.append((line_id,line_name))
     return lines_list
+
+def get_routes(line_id):
+    url = "https://api.navitia.io/v1/coverage/fr-se/lines/%s" %line_id
+    data = query_data(url)
+    routes_list = []
+    for route in data['lines'][0]['routes']:
+        route_name = route['direction']['stop_area']['name']
+        route_id = route['id']
+        routes_list.append((route_id,route_name))
+    return routes_list
+
+
+def get_stops(route_id):
+    url = 'http://api.navitia.io/v1/coverage/fr-se/routes/%s?depth=3' %route_id
+    stops = query_data(url)
+    stops_list = []
+    for stop in stops['routes'][0]['stop_points']:
+        stop_name = stop['name']
+        stop_id = stop['id']
+        stops_list.append((stop_id,stop_name))
+    return stops_list
 
 
 # Perform db calls using either static sql queries or queries with variables
