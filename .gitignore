@@ -1,4 +1,4 @@
 # List of ignored files
 *.pyc
-weather-api-key
+openweather-token
 navitia-token

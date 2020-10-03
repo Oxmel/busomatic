@@ -2,6 +2,6 @@ In order to display weather data, you need to :
 
 1) Sign up on http://openweathermap.org/ to get an api key
 
-2) Create a file in /src/ and name it 'weather-api-key'
+2) Create a file in /src/ and name it 'openweather-token'
 
 3) Copy paste the api key in the file and restart the webapp

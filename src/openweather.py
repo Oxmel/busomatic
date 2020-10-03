@@ -12,7 +12,7 @@ def forecast():
     # Catching errors in case we can't fetch weather data
     try :
         # Open the file containing the api key in read only mode
-        key_path = open('src/weather-api-key', 'r')
+        key_path = open('src/openweather-token', 'r')
         api_key = key_path.read().strip('\n')
         # Path to openweather api
         url = 'http://api.openweathermap.org/data/2.5/weather?'
