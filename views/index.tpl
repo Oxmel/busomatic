@@ -30,7 +30,7 @@
         <select id="select-line">
           <option>Ligne</option>
           % for id, name in lines:
-          <option value="{{id}}">{{name}}</option>
+          <option value="{{id}}">Ligne {{name}}</option>
           % end
         </select>
         <select id="select-route">
