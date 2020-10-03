@@ -3,6 +3,7 @@
 
 
 from urllib2 import Request, urlopen
+import datetime
 import json
 
 
@@ -65,6 +66,11 @@ def get_schedule(stop_id):
         line_name = stop_schedule['display_informations']['code']
         line_route = stop_schedule['display_informations']['trip_short_name']
         line_time = stop_schedule['stop_date_time']['arrival_date_time']
-        schedules.append((line_name, line_route, line_time))
+        # Arrival time comes as an ISO 8601 “YYYYMMDDThhmmss” string
+        # So we convert it in a human readable format, e.g. HH:MM:SS (24h)
+        convert_time = datetime.datetime.strptime(line_time, '%Y%m%dT%H%M%S')
+        # Remove seconds
+        line_htime = convert_time.time().strftime('%H:%M')
+        schedules.append((line_name, line_route, line_htime))
     return schedules
 
