@@ -20,20 +20,20 @@ def index():
                     temp=temp, wind=wind)
 
 # Fetch all available directions for a given line
-@get('/route/<line_id>', method='GET')
+@get('/route/<line_id>')
 def route(line_id):
     directions = busquery.get_routes(line_id)
     return template('directions', directions=directions)
 
 # Fetch all available stops for a given direction
-@get('/stop/<route_id>', method='GET')
+@get('/stop/<route_id>')
 def stop (route_id):
     stops = busquery.get_stops(route_id)
     response.content_type = 'text/html;charset=utf8'
     return template('stop', stops=stops)
 
 # Request schedule for a given stop
-@get('/schedule/<stop_id>', method='GET')
+@get('/schedule/<stop_id>')
 def stops(stop_id):
     schedules = busquery.get_schedule(stop_id)
     return template('schedule', schedules=schedules)
