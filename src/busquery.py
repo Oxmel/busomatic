@@ -13,8 +13,8 @@ try :
     token_location = open('src/navitia-token', 'r')
     token = token_location.read().strip('\n')
 except IOError :
-    print "Warning: This app requires a token to access navitia api"
-    print "Please check /src/navitia-token-readme for more informations"
+    print "Error: This app requires an api key to access navitia api"
+    print "Please check 'README.md' for more informations"
 
 
 # Generic function to perform api calls and make the json response readable

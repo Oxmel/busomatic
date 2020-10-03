@@ -34,9 +34,8 @@ def forecast():
         wind = int((wind * 3600) / 1000)
     except IOError :
         weather=temp=wind = 'n/a'
-        print "Warning : Unable to fetch weather data"
-        print "Please check '/src/api-key-readme' for more informations"
-        print
+        print "Warning: An api key is required to display weather data"
+        print "Please check 'README.md' for more informations"
 
     forecast = ({'weather': weather, 'temp': temp, 'wind': wind})
     return forecast
