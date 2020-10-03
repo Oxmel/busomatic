@@ -31,9 +31,11 @@ def get_lines():
     data = query_data(url)
     lines_list = []
     for line in data['lines']:
-        line_name = line['code']
-        line_id = line['id']
-        lines_list.append((line_id,line_name))
+        # Ignore special lines (PDD, BEN, etc...)
+        if len(line['code']) <= 2:
+            line_name = line['code']
+            line_id = line['id']
+            lines_list.append((line_id,line_name))
     return lines_list
 
 def get_routes(line_id):
