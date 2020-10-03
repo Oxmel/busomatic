@@ -20,22 +20,22 @@ def index():
                     temp=temp, wind=wind)
 
 # Fetch all available directions for a given line
-@get('/direction/<id_ligne>', method='GET')
-def direction(id_ligne):
-    directions = busquery.get_routes(id_ligne)
+@get('/route/<line_id>', method='GET')
+def route(line_id):
+    directions = busquery.get_routes(line_id)
     return template('directions', directions=directions)
 
 # Fetch all available stops for a given direction
-@get('/arret/<id_direction>', method='GET')
-def arret (id_direction):
-    stops = busquery.get_stops(id_direction)
+@get('/stop/<route_id>', method='GET')
+def stop (route_id):
+    stops = busquery.get_stops(route_id)
     response.content_type = 'text/html;charset=utf8'
     return template('stop', stops=stops)
 
 # Request schedule for a given stop
-@get('/horaire/<id_arret>', method='GET')
-def horaires(id_arret):
-    schedules = busquery.get_schedule(id_arret)
+@get('/schedule/<stop_id>', method='GET')
+def stops(stop_id):
+    schedules = busquery.get_schedule(stop_id)
     return template('schedule', schedules=schedules)
 
 # Paths to static files (scripts, images, stylesheet,...)

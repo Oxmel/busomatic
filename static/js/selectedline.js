@@ -1,5 +1,4 @@
 /*
-Name : selectedline.js
 Gathers schedule for selected line
 Also contains simple scripts for auto scroll and refresh
 
@@ -16,7 +15,7 @@ function init() {
     // Send result to the select element 'select-route'
     $("#select-line").change(function() {
         var selectedLine = $("#select-line").val();
-        var url ="/direction/";
+        var url ="/route/";
         var directions = url + selectedLine;
         $.get(directions, function(dirList) {
             $("#select-route").html(dirList);
@@ -27,7 +26,7 @@ function init() {
     // Send result to the select element 'select-stop'
     $("#select-route").change(function() {
         var selectedDir = $("#select-route").val();
-        var url ="/arret/";
+        var url ="/stop/";
         var arrets = url + selectedDir;
         $.get(arrets, function(stopList) {
             $("#select-stop").html(stopList);
@@ -39,7 +38,7 @@ function init() {
         var curStop=function(){
             var stopName = $("#select-stop option:selected").text();
             var selectedStop = $("#select-stop").val();
-            var url ="/horaire/";
+            var url ="/schedule/";
             var horaires = url + selectedStop;
             $.get(horaires, function(schedule) {
                 // Sending results to the table element

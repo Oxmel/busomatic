@@ -60,17 +60,17 @@ def get_stops(route_id):
 
 def get_schedule(stop_id):
     url = "https://api.navitia.io/v1/coverage/fr-se/stop_points/%s/departures?count=10" %stop_id
-    schedule = query_data(url)
-    schedules = []
-    for stop_schedule in schedule['departures']:
-        line_name = stop_schedule['display_informations']['code']
-        line_route = stop_schedule['display_informations']['trip_short_name']
-        line_time = stop_schedule['stop_date_time']['arrival_date_time']
+    schedules = query_data(url)
+    schedules_list = []
+    for schedule in schedules['departures']:
+        line_name = schedule['display_informations']['code']
+        line_route = schedule['display_informations']['trip_short_name']
+        line_time = schedule['stop_date_time']['arrival_date_time']
         # Arrival time comes as an ISO 8601 “YYYYMMDDThhmmss” string
         # So we convert it in a human readable format, e.g. HH:MM:SS (24h)
         convert_time = datetime.datetime.strptime(line_time, '%Y%m%dT%H%M%S')
         # Remove seconds
         line_htime = convert_time.time().strftime('%H:%M')
-        schedules.append((line_name, line_route, line_htime))
-    return schedules
+        schedules_list.append((line_name, line_route, line_htime))
+    return schedules_list
 
