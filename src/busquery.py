@@ -19,7 +19,7 @@ def database(query, *args):
     cur = conn.cursor()
     cur.execute(query, args)
     response = cur.fetchall()
-    cur.close
+    cur.close()
     return response
 
 # Gather schedule for selected stop
