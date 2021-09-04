@@ -5,7 +5,7 @@
 
 import os
 import sqlite3
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from bs4 import BeautifulSoup
 
 # The sqlite database is not located in this folder or any subfolder
@@ -28,7 +28,7 @@ def database(query, *args):
 # the values in the data containers (<td>)
 def horaire(id_arret):
     url = ('http://qr.t2c.fr/qrcode?_stop_id=' + id_arret)
-    conn = urllib.urlopen(url)
+    conn = urllib.request.urlopen(url)
     soup = BeautifulSoup(conn, from_encoding='utf-8', features='html.parser')
     schedule=[]
     # We skip the first table row as it doesn't contain anything relevant

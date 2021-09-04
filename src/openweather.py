@@ -5,7 +5,7 @@
 # Get forecast from openweathermap.org
 # An api key is required, see 'api-key-readme' for more infos
 
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import json
 
 def forecast():
@@ -17,10 +17,10 @@ def forecast():
         # Path to openweather api
         url = 'http://api.openweathermap.org/data/2.5/weather?'
         # Encode options to pass them later into the query string
-        options = urllib.urlencode({'id': '3024635', 'units': 'metric',
+        options = urllib.parse.urlencode({'id': '3024635', 'units': 'metric',
                                     'appid': api_key, 'lang': 'fr'})
         # Get current forecast
-        conn = urllib.urlopen(url + options)
+        conn = urllib.request.urlopen(url + options)
         forecast = json.loads(conn.read())
         # Weather
         weather = forecast["weather"][0]["description"]
@@ -34,9 +34,9 @@ def forecast():
         wind = int((wind * 3600) / 1000)
     except IOError :
         weather=temp=wind = 'n/a'
-        print "Warning : Unable to fetch weather data"
-        print "Please check '/src/api-key-readme' for more informations"
-        print
+        print("Warning : Unable to fetch weather data")
+        print("Please check '/src/api-key-readme' for more informations")
+        print()
 
     forecast = ({'weather': weather, 'temp': temp, 'wind': wind})
     return forecast

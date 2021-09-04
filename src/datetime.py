@@ -29,7 +29,7 @@ def getDate():
             'Friday':'Ven.',
             'Saturday':'Sam.',
             'Sunday':'Dim.'}
-    for word, replace in dico_jour.items():
+    for word, replace in list(dico_jour.items()):
         cur_day=cur_day.replace(word, replace)
 
     dico_mois = {'January':'Janv.',
@@ -44,7 +44,7 @@ def getDate():
             'October':'Oct.',
             'November':'Nov.',
             'December':'Dec.'}
-    for word, replace in dico_mois.items():
+    for word, replace in list(dico_mois.items()):
         cur_month=cur_month.replace(word, replace)
 
     return (cur_day+' '+cur_dayn+' '+cur_month)
