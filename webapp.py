@@ -20,14 +20,14 @@ def index():
                     temp=temp, wind=wind)
 
 # Fetch all available directions for a given line
-@get('/direction/<id_ligne>', method='GET')
+@get('/direction/<id_ligne>')
 def direction(id_ligne):
     directions = busquery.database("""SELECT id_direction,
             nom FROM directions WHERE id_ligne=?""", id_ligne)
     return template('directions', directions=directions)
 
 # Fetch all available stops for a given direction
-@get('/arret/<id_direction>', method='GET')
+@get('/arret/<id_direction>')
 def arret (id_direction):
     stops = busquery.database("""SELECT numero,
             nom FROM arrets WHERE id_direction=?""", id_direction)
@@ -35,7 +35,7 @@ def arret (id_direction):
     return template('stop', stops=stops)
 
 # Request schedule for a given stop
-@get('/horaire/<id_arret>', method='GET')
+@get('/horaire/<id_arret>')
 def horaires(id_arret):
     schedules = busquery.horaire(id_arret)
     return template('schedule', schedules=schedules)
