@@ -21,7 +21,8 @@ def forecast():
                                     'appid': api_key, 'lang': 'fr'})
         # Get current forecast
         conn = urllib.request.urlopen(url + options)
-        forecast = json.loads(conn.read())
+        data = conn.read()
+        forecast = json.loads(data.decode('utf-8'))
         # Weather
         weather = forecast["weather"][0]["description"]
         # Temperature
