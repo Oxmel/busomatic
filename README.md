@@ -20,5 +20,5 @@ Basé sur le service d'information par [QRCode](https://www.t2c.fr/horaires-par-
 
 ## Dépendances
 
-	* Bottle
+	* bottle
 	* beautifulsoup4
