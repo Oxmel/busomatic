@@ -38,7 +38,10 @@ def arret (id_direction):
 @get('/horaire/<id_arret>')
 def horaires(id_arret):
     schedules = busquery.horaire(id_arret)
-    return template('schedule', schedules=schedules)
+    if schedules:
+        return template('schedule', schedules=schedules)
+    else:
+        return '<h3 style="padding-top:20px;text-align:center;">Aucun passage prévu</h3>'
 
 # Paths to static files (scripts, images, stylesheet,...)
 @get('/static/<filename:path>')
