@@ -1,5 +1,6 @@
 # Bytecode
 *.pyc
+__pycache__/
 
 # Virtual env
 busomatic-env/
