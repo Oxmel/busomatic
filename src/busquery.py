@@ -5,23 +5,27 @@
 
 import os
 import sqlite3
+from google.transit import gtfs_realtime_pb2
+import requests
+from datetime import date, time,  datetime, timedelta
+
+# Live feed for realtime updates
+gtfs_rt_url = 'https://opendata.clermontmetropole.eu/api/explore/v2.1/catalog/datasets/gtfsrt_tripupdates/files/2c6b5c63d7be78905779d28500e6ab7e'
 
 # The sqlite database is not located in this folder or any subfolder
 # So we need to manually construct the full path to the db
 # https://stackoverflow.com/a/14150750
 path_to_db = os.path.abspath(__file__ + '/../../db/t2c-gtfs.db')
 conn = sqlite3.connect(path_to_db)
-cursor = conn.cursor()
 
 
 trip_data = ({
     "route_id": "",
     "direction_id": "",
     "stop_id": "",
-    "cur_date": "2024-07-04",
-    "cur_day": "thursday",
-    "cur_time": "16:00:00",
-    "weekday": 3
+    "cur_date": "2024-07-07",
+    "cur_time": "01:20:00",
+    "weekday": 6
 })
 
 
@@ -29,6 +33,7 @@ trip_data = ({
 # So we filter lines by name and size to get regular services only
 def get_lines():
 
+    cursor = conn.cursor()
     cursor.execute("""
 
         SELECT route_id,
@@ -42,6 +47,7 @@ def get_lines():
     """)
 
     response = cursor.fetchall()
+    cursor.close()
     return response
 
 
@@ -49,6 +55,7 @@ def get_directions(line_id):
 
     trip_data['route_id'] = line_id
 
+    cursor = conn.cursor()
     cursor.execute("""
 
         WITH valid_services AS (
@@ -89,6 +96,7 @@ def get_directions(line_id):
     """, trip_data)
 
     response = cursor.fetchall()
+    cursor.close()
     return response
 
 
@@ -96,6 +104,7 @@ def get_stops(direction_id):
 
     trip_data['direction_id'] = direction_id
 
+    cursor = conn.cursor()
     cursor.execute("""
 
         WITH valid_services AS (
@@ -141,6 +150,7 @@ def get_stops(direction_id):
     """, trip_data)
 
     response = cursor.fetchall()
+    cursor.close()
     return response
 
 
@@ -148,6 +158,9 @@ def get_departures(stop_id):
 
     trip_data['stop_id'] = stop_id
 
+    departures = []
+
+    cursor = conn.cursor()
     cursor.execute("""
 
         WITH valid_services AS (
@@ -176,6 +189,7 @@ def get_departures(stop_id):
             AND exception_type = 2
         )
         SELECT DISTINCT
+          ST.trip_id,
           R.route_long_name,
           T.trip_headsign,
           ST.departure_time
@@ -191,4 +205,59 @@ def get_departures(stop_id):
     """, trip_data)
 
     response = cursor.fetchall()
-    return response
+
+    for entry in response:
+        departure = {
+            'trip_id': entry[0],
+            'stop_id': trip_data['stop_id'],
+            'route_name': entry[1],
+            'direction_name':  entry[2],
+            'scheduled_time': entry[3]
+        }
+
+        departures.append(departure)
+
+    cursor.close()
+    return departures
+
+
+def get_realtime_feed(url):
+
+    feed = gtfs_realtime_pb2.FeedMessage()
+    response = requests.get(url)
+    feed.ParseFromString(response.content)
+
+    return feed
+
+
+def get_realtime_schedule(stop_id):
+
+    realtime_schedule = []
+
+    departures = get_departures(stop_id)
+    feed = get_realtime_feed(gtfs_rt_url)
+
+    for departure in departures:
+        trip_id = departure['trip_id']
+        stop_id = departure['stop_id']
+
+        for entity in feed.entity:
+            if entity.id == trip_id:
+                updates = entity.trip_update.stop_time_update
+
+                for update in updates:
+                    if update.stop_id == stop_id:
+                        if update.departure.delay != 0:
+                            delay = update.departure.delay
+                            scheduled_time = departure['scheduled_time']
+                            time_object = datetime.strptime(scheduled_time, '%H:%M:%S').time()
+                            # Delay can be a positive or negative int, timedelta handles both
+                            real_time = (datetime.combine(date.today(), time_object) + timedelta(seconds=delay)).time()
+                            print(departure['scheduled_time'], real_time)
+                            departure['scheduled_time'] = real_time
+
+        realtime_schedule.append((departure['route_name'], departure['direction_name'], departure['scheduled_time']))
+
+    return realtime_schedule
+
+#conn.close()

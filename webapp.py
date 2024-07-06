@@ -35,7 +35,7 @@ def arret (id_direction):
 # Request schedule for a given stop
 @get('/horaire/<id_arret>')
 def horaires(id_arret):
-    schedules = busquery.get_departures(id_arret)
+    schedules = busquery.get_realtime_schedule(id_arret)
     if schedules:
         return template('schedule', schedules=schedules)
     else:
