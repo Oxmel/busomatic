@@ -7,6 +7,8 @@
 from bottle import route, run, template, static_file, response, get, default_app
 from src import busquery, openweather
 
+busquery = busquery.BusQuery()
+
 # Default page returned when calling the base url
 @route('/')
 def index():
