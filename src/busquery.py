@@ -169,7 +169,6 @@ class BusQuery():
             JOIN stops S ON S.stop_id = ST.stop_id
             JOIN route_trips RT ON RT.trip_id = ST.trip_id
             ORDER BY ST.stop_sequence
-
         """
 
         stops = self.query_db(query, journey)
@@ -178,8 +177,8 @@ class BusQuery():
 
     def get_departures(self, stop_id):
 
-        journey = self.journey
         departures = []
+        journey = self.journey
         journey['stop_id'] = stop_id
 
         query = """
@@ -221,7 +220,6 @@ class BusQuery():
               AND ST.departure_time >= :cur_time
             ORDER BY ST.departure_time
             LIMIT 10
-
         """
 
         next_departures = self.query_db(query, journey)
@@ -242,8 +240,8 @@ class BusQuery():
     def get_realtime_schedule(self, stop_id):
 
         journey = self.journey
-        departures = self.get_departures(stop_id)
         realtime_schedule = []
+        departures = self.get_departures(stop_id)
         feed = self.get_realtime_feed(gtfs_rt_url)
 
         for departure in departures:
