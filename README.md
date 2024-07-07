@@ -11,7 +11,10 @@ Avec dans l'optique de permettre une consultation sur un maximum de supports dif
 L'utilisateur choisit un numéro de ligne, une direction, et le nom de l'arrêt pour lequel il veut connaître les horaires.
 Il obtient ensuite l'heure de passage (en temps réel) des 10 prochains bus / tram à cet arrêt.
 
-Basé sur le service d'information par [QRCode](https://www.t2c.fr/horaires-par-qrcode) proposé par la [T2C](https://www.t2c.fr).
+Ce service s'appuie sur deux sources opendata issues de la plateforme [opendata](https://opendata.clermontmetropole.eu) de Clermont-Ferrand.
+D'une part les [données statiques](https://opendata.clermontmetropole.eu/explore/dataset/gtfs-smtc/information/) de l'offre de transport au format GTFS,
+préalablement chargées dans une bdd SQLite grâce à [gtfsdb](https://github.com/OpenTransitTools/gtfsdb). Et d'autre part
+les [mises à jour](https://opendata.clermontmetropole.eu/explore/dataset/gtfsrt_tripupdates/information/) en temps réel au format GTFS-RT.
 
 ## Screenshots
 
@@ -20,5 +23,6 @@ Basé sur le service d'information par [QRCode](https://www.t2c.fr/horaires-par-
 
 ## Dépendances
 
-	* bottle
-	* beautifulsoup4
+    * bottle
+    * requests
+    * gtfs-realtime-bindings
