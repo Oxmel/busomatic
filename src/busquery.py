@@ -226,12 +226,12 @@ class BusQuery():
 
         next_departures = self.query_db(query, journey)
 
-        for entry in next_departures:
+        for trip_id, route_name, dir_name, departure_time in next_departures:
             departure = {
-                'trip_id': entry[0],
-                'route_name': entry[1],
-                'direction_name':  entry[2],
-                'scheduled_time': entry[3]
+                'trip_id': trip_id,
+                'route_name': route_name,
+                'direction_name':  dir_name,
+                'scheduled_time': departure_time
             }
 
             departures.append(departure)
