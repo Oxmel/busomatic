@@ -249,18 +249,18 @@ class BusQuery():
             trip_id = departure['trip_id']
 
             for entity in feed.entity:
-                if entity.id == trip_id:
-                    updates = entity.trip_update.stop_time_update
+                if entity.HasField('trip_update') and entity.id == trip_id:
+                    stop_time_update = entity.trip_update.stop_time_update
 
-                    for update in updates:
-                        if update.stop_id == stop_id:
-                            if update.departure.delay != 0:
-                                delay = update.departure.delay
-                                scheduled_time = departure['scheduled_time']
-                                time_object = datetime.strptime(scheduled_time, '%H:%M:%S').time()
-                                # Delay can be a positive or negative int, timedelta handles both
-                                real_time = (datetime.combine(date.today(), time_object) + timedelta(seconds=delay)).time()
-                                departure['scheduled_time'] = real_time
+                    for update in stop_time_update:
+                        if (update.stop_id == stop_id and update.HasField('departure') and
+                            update.departure.HasField('delay') and update.departure.delay != 0):
+                            delay = update.departure.delay
+                            scheduled_time = departure['scheduled_time']
+                            time_object = datetime.strptime(scheduled_time, '%H:%M:%S').time()
+                            # Delay can be a positive or negative int, timedelta handles both
+                            real_time = (datetime.combine(date.today(), time_object) + timedelta(seconds=delay)).time()
+                            departure['scheduled_time'] = real_time
 
             realtime_schedule.append((departure['route_name'], departure['direction_name'], departure['scheduled_time']))
 
