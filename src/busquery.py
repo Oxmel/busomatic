@@ -231,13 +231,13 @@ class BusQuery():
 
     def get_realtime_schedule(self):
 
-        journey = self.journey
         realtime_schedule = []
+        journey = self.journey
+        stop_id = journey['stop_id']
         departures = self.get_departures()
         feed = self.get_realtime_feed(gtfs_rt_url)
 
         for departure in departures:
-            stop_id = journey['stop_id']
             trip_id = departure['trip_id']
 
             for entity in feed.entity:
