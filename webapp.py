@@ -13,6 +13,7 @@ busquery = busquery.BusQuery()
 @route('/')
 def index():
     busquery.update_journey()
+    busquery.refresh_feed = False
     lines = busquery.get_lines()
     forecast = openweather.forecast()
     weather = forecast["weather"]
