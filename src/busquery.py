@@ -78,10 +78,7 @@ class BusQuery():
         return lines
 
 
-    def get_directions(self, line_id):
-
-        journey = self.journey
-        journey['route_id'] = line_id
+    def get_directions(self):
 
         query = """
             WITH valid_services AS (
@@ -120,14 +117,11 @@ class BusQuery():
               AND ST.departure_time >= :cur_time
         """
 
-        directions = self.query_db(query, journey)
+        directions = self.query_db(query, self.journey)
         return directions
 
 
-    def get_stops(self, direction_id):
-
-        journey = self.journey
-        journey['direction_id'] = direction_id
+    def get_stops(self):
 
         query = """
             WITH valid_services AS (
@@ -171,15 +165,13 @@ class BusQuery():
             ORDER BY ST.stop_sequence
         """
 
-        stops = self.query_db(query, journey)
+        stops = self.query_db(query, self.journey)
         return stops
 
 
-    def get_departures(self, stop_id):
+    def get_departures(self):
 
         departures = []
-        journey = self.journey
-        journey['stop_id'] = stop_id
 
         query = """
             WITH valid_services AS (
@@ -222,7 +214,7 @@ class BusQuery():
             LIMIT 10
         """
 
-        next_departures = self.query_db(query, journey)
+        next_departures = self.query_db(query, self.journey)
 
         for trip_id, route_name, dir_name, departure_time in next_departures:
             departure = {
@@ -237,11 +229,11 @@ class BusQuery():
         return departures
 
 
-    def get_realtime_schedule(self, stop_id):
+    def get_realtime_schedule(self):
 
         journey = self.journey
         realtime_schedule = []
-        departures = self.get_departures(stop_id)
+        departures = self.get_departures()
         feed = self.get_realtime_feed(gtfs_rt_url)
 
         for departure in departures:

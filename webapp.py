@@ -24,20 +24,23 @@ def index():
 # Fetch all available directions for a given line
 @get('/direction/<id_ligne>')
 def direction(id_ligne):
-    directions = busquery.get_directions(id_ligne)
+    busquery.journey['route_id'] = id_ligne
+    directions = busquery.get_directions()
     return template('directions', directions=directions)
 
 # Fetch all available stops for a given direction
 @get('/arret/<id_direction>')
 def arret (id_direction):
-    stops = busquery.get_stops(id_direction)
+    busquery.journey['direction_id'] = id_direction
+    stops = busquery.get_stops()
     response.content_type = 'text/html;charset=utf8'
     return template('stop', stops=stops)
 
 # Request schedule for a given stop
 @get('/horaire/<id_arret>')
 def horaires(id_arret):
-    schedules = busquery.get_realtime_schedule(id_arret)
+    busquery.journey['stop_id'] = id_arret
+    schedules = busquery.get_realtime_schedule()
     if schedules:
         return template('schedule', schedules=schedules)
     else:
