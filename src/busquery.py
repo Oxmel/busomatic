@@ -19,8 +19,6 @@ path_to_db = os.path.abspath(__file__ + '/../../db/t2c-gtfs.db')
 conn = sqlite3.connect(path_to_db)
 
 
-# TODO: Update datetime infos for each refresh so next departures are also
-# updated accordingly
 class BusQuery():
 
     def __init__(self):
@@ -29,10 +27,18 @@ class BusQuery():
             'route_id': None,
             'direction_id': None,
             'stop_id': None,
-            'cur_date': date.today().strftime('%Y-%m-%d'),
-            'weekday': datetime.today().weekday(),
-            'cur_time': datetime.now().time().strftime('%H:%M:%S')
+            'cur_date': None,
+            'weekday': None,
+            'cur_time': None
         }
+
+
+    def update_time(self):
+
+        journey = self.journey
+        journey['cur_date'] = date.today().strftime('%Y-%m-%d')
+        journey['weekday'] = datetime.today().weekday()
+        journey['cur_time'] = datetime.now().time().strftime('%H:%M:%S')
 
 
     def get_realtime_feed(self, url):
