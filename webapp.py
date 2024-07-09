@@ -12,7 +12,7 @@ busquery = busquery.BusQuery()
 # Default page returned when calling the base url
 @route('/')
 def index():
-    busquery.update_time()
+    busquery.update_journey()
     lines = busquery.get_lines()
     forecast = openweather.forecast()
     weather = forecast["weather"]
@@ -40,7 +40,6 @@ def arret (id_direction):
 # Request schedule for a given stop
 @get('/horaire/<id_arret>')
 def horaires(id_arret):
-    busquery.update_time()
     busquery.journey['stop_id'] = id_arret
     schedules = busquery.get_realtime_schedule()
     if schedules:
