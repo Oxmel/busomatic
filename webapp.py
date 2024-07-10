@@ -8,11 +8,11 @@ from bottle import route, run, template, static_file, response, get, default_app
 from src import busquery, openweather
 
 busquery = busquery.BusQuery()
+journey = busquery.journey
 
 # Default page returned when calling the base url
 @route('/')
 def index():
-    busquery.update_time()
     lines = busquery.get_lines()
     forecast = openweather.forecast()
     weather = forecast["weather"]
@@ -25,25 +25,24 @@ def index():
 # Fetch all available directions for a given line
 @get('/direction/<id_ligne>')
 def direction(id_ligne):
-    busquery.journey['route_id'] = id_ligne
-    directions = busquery.get_directions()
+    busquery.update_journey(route_id=id_ligne)
+    directions = busquery.get_directions(journey)
     return template('directions', directions=directions)
 
 # Fetch all available stops for a given direction
 @get('/arret/<id_direction>')
 def arret (id_direction):
-    busquery.journey['direction_id'] = id_direction
-    stops = busquery.get_stops()
+    busquery.update_journey(direction_id=id_direction)
+    stops = busquery.get_stops(journey)
     response.content_type = 'text/html;charset=utf8'
     return template('stop', stops=stops)
 
 # Request schedule for a given stop
 @get('/horaire/<id_arret>')
 def horaires(id_arret):
-    busquery.update_time()
-    busquery.journey['stop_id'] = id_arret
+    busquery.update_journey(stop_id=id_arret)
     feed = busquery.get_realtime_feed()
-    departures = busquery.get_departures()
+    departures = busquery.get_departures(journey)
     schedules = busquery.get_realtime_schedule(feed, id_arret, departures)
     if schedules:
         return template('schedule', schedules=schedules)

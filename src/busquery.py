@@ -23,22 +23,18 @@ class BusQuery():
 
     def __init__(self):
 
-        self.journey = {
-            'route_id': None,
-            'direction_id': None,
-            'stop_id': None,
-            'cur_date': None,
-            'weekday': None,
-            'cur_time': None
-        }
+        self.journey = {}
 
 
-    def update_time(self):
+    def update_journey(self, **kwargs):
 
         journey = self.journey
-        journey['cur_date'] = date.today().strftime('%Y-%m-%d')
-        journey['weekday'] = datetime.today().weekday()
-        journey['cur_time'] = datetime.now().time().strftime('%H:%M:%S')
+        cur_date = date.today().strftime('%Y-%m-%d')
+        weekday = datetime.today().weekday()
+        cur_time = datetime.now().time().strftime('%H:%M:%S')
+
+        self.journey.update(cur_date=cur_date, weekday=weekday, cur_time=cur_time)
+        self.journey.update(kwargs)
 
 
     def get_realtime_feed(self):
@@ -69,6 +65,7 @@ class BusQuery():
             cur.execute(query, journey)
         else:
             cur.execute(query)
+
         response = cur.fetchall()
         cur.close()
 
@@ -93,7 +90,7 @@ class BusQuery():
         return lines
 
 
-    def get_directions(self):
+    def get_directions(self, journey):
 
         query = """
             WITH valid_services AS (
@@ -132,11 +129,11 @@ class BusQuery():
               AND ST.departure_time >= :cur_time
         """
 
-        directions = self.query_db(query, self.journey)
+        directions = self.query_db(query, journey)
         return directions
 
 
-    def get_stops(self):
+    def get_stops(self, journey):
 
         query = """
             WITH valid_services AS (
@@ -180,11 +177,11 @@ class BusQuery():
             ORDER BY ST.stop_sequence
         """
 
-        stops = self.query_db(query, self.journey)
+        stops = self.query_db(query, journey)
         return stops
 
 
-    def get_departures(self):
+    def get_departures(self, journey):
 
         departures = []
 
@@ -229,7 +226,7 @@ class BusQuery():
             LIMIT 10
         """
 
-        next_departures = self.query_db(query, self.journey)
+        next_departures = self.query_db(query, journey)
 
         for trip_id, route_name, dir_name, departure_time in next_departures:
             departure = {
