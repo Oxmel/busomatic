@@ -42,7 +42,9 @@ def arret (id_direction):
 def horaires(id_arret):
     busquery.update_time()
     busquery.journey['stop_id'] = id_arret
-    schedules = busquery.get_realtime_schedule()
+    feed = busquery.get_realtime_feed()
+    departures = busquery.get_departures()
+    schedules = busquery.get_realtime_schedule(feed, id_arret, departures)
     if schedules:
         return template('schedule', schedules=schedules)
     else:

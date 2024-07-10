@@ -244,13 +244,9 @@ class BusQuery():
         return departures
 
 
-    def get_realtime_schedule(self):
+    def get_realtime_schedule(self, feed, stop_id, departures):
 
         realtime_schedule = []
-        journey = self.journey
-        stop_id = journey['stop_id']
-        departures = self.get_departures()
-        feed = self.get_realtime_feed()
 
         for departure in departures:
             trip_id = departure['trip_id']
