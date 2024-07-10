@@ -216,7 +216,7 @@ class BusQuery():
             )
             SELECT DISTINCT
               ST.trip_id,
-              R.route_long_name,
+              R.route_short_name,
               T.trip_headsign,
               ST.departure_time
             FROM stop_times ST
