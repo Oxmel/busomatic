@@ -23,8 +23,6 @@ class BusQuery():
 
     def __init__(self):
 
-        self.feed = None
-        self.refresh_feed = False
         self.journey = {
             'route_id': None,
             'direction_id': None,
@@ -51,12 +49,6 @@ class BusQuery():
         feed.ParseFromString(response.content)
 
         return feed
-
-
-    def update_journey(self):
-
-        self.feed = self.get_realtime_feed()
-        self.update_time()
 
 
     def convert_time(self, time_str):
@@ -254,18 +246,11 @@ class BusQuery():
 
     def get_realtime_schedule(self):
 
-        # Use a snapshot of the gtfs-rt feed on initial search to display
-        # results faster. Each auto refresh then also triggers a feed update
-        if self.refresh_feed:
-            self.update_journey()
-        else:
-            self.refresh_feed = True
-
-        feed = self.feed
         realtime_schedule = []
         journey = self.journey
         stop_id = journey['stop_id']
         departures = self.get_departures()
+        feed = self.get_realtime_feed()
 
         for departure in departures:
             trip_id = departure['trip_id']
