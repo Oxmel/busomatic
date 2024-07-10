@@ -59,6 +59,14 @@ class BusQuery():
         self.update_time()
 
 
+    def convert_time(self, time_str):
+
+        time_obj = datetime.strptime(time_str, '%H:%M:%S').time()
+        convert_time = datetime.combine(date.today(), time_obj)
+
+        return convert_time
+
+
     # Using 'param=None' to check if param exists because 'journey' is a dict
     # So if we try to use *args or **kwargs, it will be unpacked instead of
     # being passed as is in the query. Which will raise an error.
@@ -262,7 +270,7 @@ class BusQuery():
         for departure in departures:
             trip_id = departure['trip_id']
             scheduled_time = departure['scheduled_time']
-            departure_time = datetime.strptime(scheduled_time, '%H:%M:%S').time()
+            time_obj = self.convert_time(scheduled_time)
 
             for entity in feed.entity:
                 if entity.HasField('trip_update') and entity.id == trip_id:
@@ -273,9 +281,9 @@ class BusQuery():
                             update.departure.HasField('delay') and update.departure.delay != 0):
                             delay = update.departure.delay
                             # Delay can be a positive or negative int, timedelta handles both
-                            real_time = (datetime.combine(date.today(), departure_time) + timedelta(seconds=delay)).time()
-                            departure_time = real_time
+                            time_obj = (time_obj + timedelta(seconds=delay))
 
+            departure_time = time_obj.time().strftime('%H:%M')
             realtime_schedule.append((departure['route_name'], departure['direction_name'], departure_time))
 
         return realtime_schedule
