@@ -54,6 +54,19 @@ class BusQuery():
 
         return convert_time
 
+    # Display remaining time in minutes for the first 3 results
+    def format_time(self, index, time_obj):
+
+        if index <= 2:
+            now = datetime.now()
+            time_delta = time_obj - now
+            round_delta = int(time_delta.seconds / 60)
+            format_time = str(round_delta) + "'"
+        else:
+            format_time = time_obj.time().strftime('%H:%M')
+
+        return format_time
+
 
     # Using 'param=None' to check if param exists because 'journey' is a dict
     # So if we try to use *args or **kwargs, it will be unpacked instead of
@@ -245,7 +258,7 @@ class BusQuery():
 
         realtime_schedule = []
 
-        for departure in departures:
+        for index, departure in enumerate(departures):
             trip_id = departure['trip_id']
             scheduled_time = departure['scheduled_time']
             time_obj = self.convert_time(scheduled_time)
@@ -261,7 +274,7 @@ class BusQuery():
                             # Delay can be a positive or negative int, timedelta handles both
                             time_obj = (time_obj + timedelta(seconds=delay))
 
-            departure_time = time_obj.time().strftime('%H:%M')
+            departure_time = self.format_time(index, time_obj)
             realtime_schedule.append((departure['route_name'], departure['direction_name'], departure_time))
 
         return realtime_schedule
