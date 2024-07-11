@@ -54,16 +54,20 @@ class BusQuery():
 
         return convert_time
 
-    # Display remaining time in minutes for the first 3 results
+    # Display remaining time in minutes for the first 3 results but only if
+    # remaining minutes < 60. Otherwise display normal departure times
     def format_time(self, index, time_obj):
+
+        format_time = time_obj.time().strftime('%H:%M')
 
         if index <= 2:
             now = datetime.now()
             time_delta = time_obj - now
-            round_delta = int(time_delta.seconds / 60)
-            format_time = str(round_delta) + "'"
-        else:
-            format_time = time_obj.time().strftime('%H:%M')
+            round_delta = time_delta.seconds // 60
+            if round_delta <= 0:
+                format_time = ('<1min')
+            elif round_delta < 60:
+                format_time = str(round_delta) + "'"
 
         return format_time
 
