@@ -28,12 +28,15 @@ class BusQuery():
 
     def update_journey(self, **kwargs):
 
+        now = datetime.now()
+
         journey = self.journey
         cur_date = date.today().strftime('%Y-%m-%d')
         weekday = datetime.today().weekday()
-        cur_time = datetime.now().time().strftime('%H:%M:%S')
+        cur_time = now.time().strftime('%H:%M:%S')
+        cur_time_obj = now
 
-        self.journey.update(cur_date=cur_date, weekday=weekday, cur_time=cur_time)
+        self.journey.update(cur_date=cur_date, weekday=weekday, cur_time=cur_time, cur_time_obj=cur_time_obj)
         self.journey.update(kwargs)
 
 
@@ -58,16 +61,20 @@ class BusQuery():
     # remaining minutes < 60. Otherwise display normal departure times
     def format_time(self, index, time_obj):
 
-        format_time = time_obj.time().strftime('%H:%M')
+        # Reuse date and time generated for departures seach instead of calling
+        # datetime.now(). This prevents 1st result to sometimes be treated as
+        # departure for next day due to time delta
+        now = self.journey['cur_time_obj']
 
         if index <= 2:
-            now = datetime.now()
             time_delta = time_obj - now
             round_delta = time_delta.seconds // 60
             if round_delta <= 0:
                 format_time = ('<1min')
             elif round_delta < 60:
                 format_time = str(round_delta) + "'"
+        else:
+            format_time = time_obj.time().strftime('%H:%M')
 
         return format_time
 
