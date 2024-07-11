@@ -66,13 +66,13 @@ class BusQuery():
         # departure for next day due to time delta
         now = self.journey['cur_time_obj']
 
-        if index <= 2:
-            time_delta = time_obj - now
-            round_delta = time_delta.seconds // 60
-            if round_delta <= 0:
-                format_time = ('<1min')
-            elif round_delta < 60:
-                format_time = str(round_delta) + "'"
+        time_delta = time_obj - now
+        round_delta = time_delta.seconds // 60
+
+        if index <= 2 and round_delta <= 0:
+            format_time = ('<1min')
+        elif index <= 2 and round_delta < 60:
+            format_time = str(round_delta) + "'"
         else:
             format_time = time_obj.time().strftime('%H:%M')
 
