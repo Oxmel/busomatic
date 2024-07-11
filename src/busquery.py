@@ -61,13 +61,16 @@ class BusQuery():
     # remaining minutes < 60. Otherwise display normal departure times
     def format_time(self, index, time_obj):
 
-        # Reuse date and time generated for departures seach instead of calling
-        # datetime.now(). This prevents 1st result to sometimes be treated as
-        # departure for next day due to time delta
-        now = self.journey['cur_time_obj']
+        now = datetime.now()
 
-        time_delta = time_obj - now
-        round_delta = time_delta.seconds // 60
+        # 'time_obj' is departure time + real time delay (positive or negative)
+        # And if a line has too much advance 'now' can sometimes be greater
+        # than 'time_obj' giving a wrong result with a -24h delta
+        if now < time_obj:
+            time_delta = time_obj - now
+            round_delta = time_delta.seconds // 60
+        else:
+            round_delta = 0
 
         if index <= 2 and round_delta <= 0:
             format_time = ('<1min')
