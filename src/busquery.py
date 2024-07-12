@@ -47,10 +47,15 @@ class BusQuery():
 
         url = gtfs_rt_url
         feed = gtfs_realtime_pb2.FeedMessage()
-        response = requests.get(url)
-        feed.ParseFromString(response.content)
-
-        return feed
+        try:
+            # Timeout triggers if the server doesn't answer for x secs
+            # It's not a time limit on the entire response download
+            response = requests.get(url, timeout=5)
+            feed.ParseFromString(response.content)
+            return feed
+        # Catchall for any Requests exception
+        except requests.exceptions.RequestException:
+            return None
 
 
     def update_feed(self):
