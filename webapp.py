@@ -13,6 +13,7 @@ journey = busquery.journey
 # Default page returned when calling the base url
 @route('/')
 def index():
+    busquery.update_feed_thread()
     lines = busquery.get_lines()
     forecast = openweather.forecast()
     weather = forecast["weather"]
@@ -41,8 +42,15 @@ def arret (id_direction):
 @get('/horaire/<id_arret>')
 def horaires(id_arret):
     busquery.update_journey(stop_id=id_arret)
-    feed = busquery.get_realtime_feed()
     departures = busquery.get_departures(journey)
+    # Ensure consistent loading times when displaying results
+    if busquery.use_local_feed:
+        feed = busquery.local_feed
+        busquery.use_local_feed = False
+    # Download a new feed for each subsequent refresh
+    else:
+        feed = busquery.get_realtime_feed()
+
     schedules = busquery.get_realtime_schedule(feed, id_arret, departures)
     if schedules:
         return template('schedule', schedules=schedules)

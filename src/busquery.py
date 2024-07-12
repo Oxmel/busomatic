@@ -5,8 +5,9 @@
 
 import os
 import sqlite3
-from google.transit import gtfs_realtime_pb2
 import requests
+import threading
+from google.transit import gtfs_realtime_pb2
 from datetime import date, time,  datetime, timedelta
 
 # Live feed for realtime updates
@@ -24,6 +25,8 @@ class BusQuery():
     def __init__(self):
 
         self.journey = {}
+        self.local_feed = None
+        self.use_local_feed = False
 
 
     def update_journey(self, **kwargs):
@@ -48,6 +51,17 @@ class BusQuery():
         feed.ParseFromString(response.content)
 
         return feed
+
+
+    def update_feed(self):
+        self.local_feed = self.get_realtime_feed()
+        self.use_local_feed = True
+
+    # Endpoint response ranges from ~200ms to several seconds so we use
+    # threading to download feed in parallel and avoid blocking page load
+    def update_feed_thread(self):
+        request_thread = threading.Thread(target=self.update_feed)
+        request_thread.start()
 
 
     def convert_time(self, time_str):
