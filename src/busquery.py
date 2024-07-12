@@ -39,8 +39,8 @@ class BusQuery():
         cur_time = now.time().strftime('%H:%M:%S')
         cur_time_obj = now
 
-        self.journey.update(cur_date=cur_date, weekday=weekday, cur_time=cur_time, cur_time_obj=cur_time_obj)
-        self.journey.update(kwargs)
+        self.journey.update(cur_date=cur_date, weekday=weekday,
+                            cur_time=cur_time, cur_time_obj=cur_time_obj, **kwargs)
 
 
     def get_realtime_feed(self):
