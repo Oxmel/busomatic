@@ -26,7 +26,7 @@ class BusQuery():
 
         self.journey = {}
         self.local_feed = None
-        self.use_local_feed = False
+        self.refresh_feed = True
 
 
     def update_journey(self, **kwargs):
@@ -60,13 +60,26 @@ class BusQuery():
 
     def update_feed(self):
         self.local_feed = self.get_realtime_feed()
-        self.use_local_feed = True
+        self.refresh_feed = False
 
     # Endpoint response ranges from ~200ms to several seconds so we use
     # threading to download feed in parallel and avoid blocking page load
     def update_feed_thread(self):
         request_thread = threading.Thread(target=self.update_feed)
         request_thread.start()
+
+
+    # Use the version in cache when displaying results to ensure consistent
+    # loading times. And get the latest version when results are refreshed
+    def select_feed(self):
+
+        if self.refresh_feed:
+            feed = self.get_realtime_feed()
+        else:
+            feed = self.local_feed
+            self.refresh_feed = True
+
+        return feed
 
 
     def convert_time(self, time_str):
@@ -311,3 +324,31 @@ class BusQuery():
             realtime_schedule.append((departure['route_name'], departure['direction_name'], departure_time))
 
         return realtime_schedule
+
+
+    def get_offline_schedule(self, departures):
+
+        schedule = []
+
+        for index, departure in enumerate(departures):
+            scheduled_time = departure['scheduled_time']
+            time_obj = self.convert_time(scheduled_time)
+            departure_time = self.format_time(index, time_obj)
+            schedule.append((departure['route_name'], departure['direction_name'], departure_time))
+
+        return schedule
+
+    # Display theorical hours if real time feed can't be fetched or is empty
+    def select_schedule(self, journey, stop_id):
+
+        departures = self.get_departures(journey)
+        feed = self.select_feed()
+
+        if feed:
+            schedule = self.get_realtime_schedule(feed, stop_id, departures)
+            is_realtime = True
+        else:
+            schedule = self.get_offline_schedule(departures)
+            is_realtime = False
+
+        return {'schedule': schedule, 'is_realtime': is_realtime}

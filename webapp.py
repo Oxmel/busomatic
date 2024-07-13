@@ -42,16 +42,9 @@ def arret (id_direction):
 @get('/horaire/<id_arret>')
 def horaires(id_arret):
     busquery.update_journey(stop_id=id_arret)
-    departures = busquery.get_departures(journey)
-    # Ensure consistent loading times when displaying results
-    if busquery.use_local_feed:
-        feed = busquery.local_feed
-        busquery.use_local_feed = False
-    # Download a new feed for each subsequent refresh
-    else:
-        feed = busquery.get_realtime_feed()
-
-    schedules = busquery.get_realtime_schedule(feed, id_arret, departures)
+    select_schedule = busquery.select_schedule(journey, id_arret)
+    schedules = select_schedule['schedule']
+    #is_realtime = select_schedules['is_realtime']
     if schedules:
         return template('schedule', schedules=schedules)
     else:
