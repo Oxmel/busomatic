@@ -148,7 +148,9 @@ class BusQuery():
         lines = self.query_db(query)
         return lines
 
-
+    # Extract the stop name that has the highest stop sequence for each
+    # direction (aka terminus). Also use temporal data to follow shape
+    # variations and potential terminus change between weekdays and weekends.
     def get_directions(self, journey):
 
         query = """
@@ -177,15 +179,21 @@ class BusQuery():
               WHERE date = :cur_date
                 AND exception_type = 2
             )
-            SELECT DISTINCT
-              T.direction_id,
-              T.trip_headsign
-            FROM stop_times ST
-            JOIN trips T ON T.trip_id = ST.trip_id
-            JOIN routes R ON R.route_id = T.route_id
-            JOIN valid_services VS ON VS.service_id = T.service_id
-            WHERE R.route_id = :route_id
-              AND ST.departure_time >= :cur_time
+            SELECT trips.direction_id, stops.stop_name
+            FROM stop_times
+            INNER JOIN (
+                SELECT t.trip_id, t.direction_id, MAX(st.stop_sequence) AS max_stop_sequence
+                FROM trips t
+                JOIN stop_times st ON t.trip_id = st.trip_id
+                JOIN valid_services vs ON t.service_id = vs.service_id
+                WHERE t.route_id = :route_id
+                GROUP BY t.direction_id
+            ) AS max_stops ON stop_times.trip_id = max_stops.trip_id
+                AND stop_times.stop_sequence = max_stops.max_stop_sequence
+            INNER JOIN trips ON stop_times.trip_id = trips.trip_id
+            INNER JOIN stops ON stop_times.stop_id = stops.stop_id
+            WHERE trips.route_id = :route_id
+                AND stop_times.stop_sequence = max_stops.max_stop_sequence
         """
 
         directions = self.query_db(query, journey)
