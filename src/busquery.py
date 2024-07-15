@@ -82,12 +82,18 @@ class BusQuery():
         return feed
 
 
+    # If next departure is after midnight (e.g. '00:15:00'), gtfs time format
+    # will look like '24:15:00'. So we first get today's date, set time to
+    # '00:00:00' and then use departure time as time delta.
     def convert_time(self, time_str):
 
-        time_obj = datetime.strptime(time_str, '%H:%M:%S').time()
-        convert_time = datetime.combine(date.today(), time_obj)
+        split_time = time_str.split(':')
+        hours, minutes, seconds = int(split_time[0]), int(split_time[1]), int(split_time[2])
+        now = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        convert_time = now + timedelta(hours=hours, minutes=minutes, seconds=seconds)
 
         return convert_time
+
 
     # Display remaining time in minutes for the first 3 results but only if
     # remaining minutes < 60. Otherwise display normal departure times
