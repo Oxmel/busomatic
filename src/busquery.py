@@ -53,8 +53,8 @@ class BusQuery():
             response = requests.get(url, timeout=5)
             feed.ParseFromString(response.content)
             return feed
-        # Catchall for any Requests exception
-        except requests.exceptions.RequestException:
+        # Fallback to prevent crashes if anything fails when parsing feed
+        except:
             return None
 
 
