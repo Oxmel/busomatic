@@ -11,7 +11,7 @@ from google.transit import gtfs_realtime_pb2
 from datetime import date, time,  datetime, timedelta
 
 # Live feed for realtime updates
-gtfs_rt_url = 'https://opendata.clermontmetropole.eu/api/explore/v2.1/catalog/datasets/gtfsrt_tripupdates/files/2c6b5c63d7be78905779d28500e6ab7e'
+gtfs_rt_url = 'https://opendata.clermontmetropole.eu/api/explore/v2.1/catalog/datasets/gtfs-smtc/files/2c6b5c63d7be78905779d28500e6ab7e'
 
 # The sqlite database is not located in this folder or any subfolder
 # So we need to manually construct the full path to the db
