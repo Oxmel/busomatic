@@ -5,3 +5,6 @@
     <td id="line-schedule">{{linetime}}</td>
   </tr>
 % end
+<tr>
+  <td>Temps réel: {{is_realtime}}</td>
+</tr>

@@ -21,7 +21,7 @@ def index():
     wind = forecast["wind"]
     response.content_type = 'text/html;charset=utf8'
     return template('index', lines=lines, weather=weather,
-                    temp=temp, wind=wind)
+                    temp=temp, wind=wind, is_realtime='')
 
 # Fetch all available directions for a given line
 @get('/direction/<id_ligne>')
@@ -44,9 +44,9 @@ def horaires(id_arret):
     busquery.update_journey(stop_id=id_arret)
     select_schedule = busquery.select_schedule(journey, id_arret)
     schedules = select_schedule['schedule']
-    #is_realtime = select_schedules['is_realtime']
+    is_realtime = select_schedule['is_realtime']
     if schedules:
-        return template('schedule', schedules=schedules)
+        return template('schedule', schedules=schedules, is_realtime=is_realtime)
     else:
         return '<h3 style="padding-top:20px;text-align:center;">Aucun passage prévu</h3>'
 
