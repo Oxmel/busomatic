@@ -5,7 +5,7 @@
 
 import os
 import sqlite3
-import requests
+import urllib
 import threading
 from google.transit import gtfs_realtime_pb2
 from datetime import date, time,  datetime, timedelta
@@ -50,8 +50,8 @@ class BusQuery():
         try:
             # Timeout triggers if the server doesn't answer for x secs
             # It's not a time limit on the entire response download
-            response = requests.get(url, timeout=5)
-            feed.ParseFromString(response.content)
+            response = urllib.request.urlopen(url, timeout=5)
+            feed.ParseFromString(response.read())
             return feed
         # Fallback to prevent crashes if anything fails when parsing feed
         except:
