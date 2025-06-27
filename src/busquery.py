@@ -143,11 +143,11 @@ class BusQuery():
 
         query = """
             SELECT route_id,
-              route_long_name
+              route_desc
             FROM routes
-            WHERE route_long_name LIKE 'T%'
-              OR route_long_name LIKE 'L%'
-              AND length(route_long_name) < 9
+            WHERE route_desc LIKE 'T%'
+              OR route_desc LIKE 'L%'
+              AND length(route_desc) < 9
             ORDER BY route_short_name + 0 ASC
         """
 
