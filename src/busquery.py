@@ -97,7 +97,7 @@ class BusQuery():
 
     # Display remaining time in minutes for the first 3 results but only if
     # remaining minutes < 60. Otherwise display normal departure times
-    def format_time(self, index, time_obj):
+    def format_time(self, time_obj):
 
         now = datetime.now()
 
@@ -110,9 +110,8 @@ class BusQuery():
         else:
             round_delta = 0
 
-        if index <= 2 and round_delta <= 0:
-            format_time = ('<1min')
-        elif index <= 2 and round_delta < 60:
+        # Convert any passage time that is less than 60 mins
+        if round_delta < 60:
             format_time = str(round_delta) + "'"
         else:
             format_time = time_obj.time().strftime('%H:%M')
@@ -318,7 +317,7 @@ class BusQuery():
 
         realtime_schedule = []
 
-        for index, departure in enumerate(departures):
+        for departure in departures:
             trip_id = departure['trip_id']
             scheduled_time = departure['scheduled_time']
             time_obj = self.convert_time(scheduled_time)
@@ -334,7 +333,7 @@ class BusQuery():
                             # Delay can be a positive or negative int, timedelta handles both
                             time_obj = (time_obj + timedelta(seconds=delay))
 
-            departure_time = self.format_time(index, time_obj)
+            departure_time = self.format_time(time_obj)
             realtime_schedule.append((departure['route_name'], departure['direction_name'], departure_time))
 
         return realtime_schedule
@@ -344,10 +343,10 @@ class BusQuery():
 
         schedule = []
 
-        for index, departure in enumerate(departures):
+        for departure in departures:
             scheduled_time = departure['scheduled_time']
             time_obj = self.convert_time(scheduled_time)
-            departure_time = self.format_time(index, time_obj)
+            departure_time = self.format_time(time_obj)
             schedule.append((departure['route_name'], departure['direction_name'], departure_time))
 
         return schedule
