@@ -334,7 +334,11 @@ class BusQuery():
                             time_obj = (time_obj + timedelta(seconds=delay))
 
             departure_time = self.format_time(time_obj)
-            realtime_schedule.append((departure['route_name'], departure['direction_name'], departure_time))
+            realtime_schedule.append({
+                'line_name': departure['route_name'],
+                'line_direction': departure['direction_name'],
+                'departure_time': departure_time
+            })
 
         return realtime_schedule
 
@@ -347,7 +351,11 @@ class BusQuery():
             scheduled_time = departure['scheduled_time']
             time_obj = self.convert_time(scheduled_time)
             departure_time = self.format_time(time_obj)
-            schedule.append((departure['route_name'], departure['direction_name'], departure_time))
+            schedule.append({
+                'line_name': departure['route_name'],
+                'line_direction': departure['direction_name'],
+                'departure_time': departure_time
+            })
 
         return schedule
 

@@ -1,7 +1,7 @@
-% for linename, linedir, linetime in schedules:
+% for departure in schedules:
   <tr>
-    <td id="line-name">{{linename}}</td>
-    <td id="line-direction">{{linedir}}</td>
-    <td id="line-schedule">{{linetime}}</td>
+    <td id="line-name">{{departure['line_name']}}</td>
+    <td id="line-direction">{{departure['line_direction']}}</td>
+    <td id="line-schedule">{{departure['departure_time']}}</td>
   </tr>
 % end
