@@ -331,21 +331,31 @@ class BusQuery():
                     delay = stop_time_update.departure.delay
 
                     if (stop_id == target_stop and timestamp >= cur_timestamp):
+                        route_id = entity.trip_update.trip.route_id
                         trip_id = entity.id
 
-                        query_dir = """SELECT route_id, trip_headsign from trips where trip_id = :trip_id"""
-                        trip_info = self.query_db(query_dir, {'trip_id':trip_id})
-                        line_id = trip_info[0][0]
-                        trip_headsign = trip_info[0][1]
+                        query_route = """SELECT route_short_name from routes where route_id = :route_id"""
+                        route_short_name = self.query_db(query_route, {'route_id':route_id})
+                        route_short_name = route_short_name[0][0]
 
-                        query_line = """SELECT route_short_name from routes where route_id = :line_id"""
-                        line_short_name = self.query_db(query_line, {'line_id':line_id})
-                        line_short_name = line_short_name[0][0]
+                        # We first try to get the real terminus directly from gtfs data using the trip id
+                        query_direction = """SELECT trip_headsign from trips where trip_id = :trip_id"""
+                        trip_info = self.query_db(query_direction, {'trip_id':trip_id})
+
+                        # But sometimes even if the trip id is 100% valid there is simply no reference about it in the gtfs db
+                        # In such case we're forced to use the general (offline) terminus name which can differ from the real one
+                        if trip_info:
+                            trip_headsign = trip_info[0][0]
+                        else:
+                            direction_id = entity.trip_update.trip.direction_id
+                            query_direction = """SELECT trip_headsign from trips where route_id = :route_id and direction_id = :direction_id limit 1"""
+                            trip_info = self.query_db(query_direction, {'route_id':route_id, 'direction_id': direction_id})
+                            trip_headsign = trip_info[0][0]
 
                         departure_time = datetime.fromtimestamp(timestamp)
                         departure_time = self.format_time(departure_time)
                         departures.append({
-                            'line_name': line_short_name,
+                            'line_name': route_short_name,
                             'line_direction': trip_headsign,
                             'departure_timestamp': timestamp,
                             'departure_time': departure_time
