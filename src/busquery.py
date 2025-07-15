@@ -253,7 +253,7 @@ class BusQuery():
         return stops
 
 
-    def get_departures(self, journey):
+    def get_offline_schedule(self, journey):
 
         departures = []
 
@@ -301,11 +301,13 @@ class BusQuery():
         next_departures = self.query_db(query, journey)
 
         for trip_id, route_name, dir_name, departure_time in next_departures:
+            departure_time = self.convert_time(departure_time)
+            departure_time = self.format_time(departure_time)
+
             departure = {
-                'trip_id': trip_id,
-                'route_name': route_name,
-                'direction_name':  dir_name,
-                'scheduled_time': departure_time
+                'line_name': route_name,
+                'line_direction':  dir_name,
+                'departure_time': departure_time
             }
 
             departures.append(departure)
@@ -313,63 +315,64 @@ class BusQuery():
         return departures
 
 
-    def get_realtime_schedule(self, feed, stop_id, departures):
+    def get_realtime_schedule(self, feed, target_stop):
 
-        realtime_schedule = []
+        count = 0
+        departures = []
+        cur_timestamp = int(datetime.now().timestamp())
 
-        for departure in departures:
-            trip_id = departure['trip_id']
-            scheduled_time = departure['scheduled_time']
-            time_obj = self.convert_time(scheduled_time)
+        for entity in feed.entity:
 
-            for entity in feed.entity:
-                if entity.HasField('trip_update') and entity.id == trip_id:
-                    stop_time_update = entity.trip_update.stop_time_update
+            if entity.HasField('trip_update'):
 
-                    for update in stop_time_update:
-                        if (update.stop_id == stop_id and update.HasField('departure') and
-                            update.departure.HasField('delay') and update.departure.delay != 0):
-                            delay = update.departure.delay
-                            # Delay can be a positive or negative int, timedelta handles both
-                            time_obj = (time_obj + timedelta(seconds=delay))
+                for stop_time_update in entity.trip_update.stop_time_update:
+                    stop_id = stop_time_update.stop_id
+                    timestamp = stop_time_update.arrival.time
+                    delay = stop_time_update.departure.delay
 
-            departure_time = self.format_time(time_obj)
-            realtime_schedule.append({
-                'line_name': departure['route_name'],
-                'line_direction': departure['direction_name'],
-                'departure_time': departure_time
-            })
+                    if (stop_id == target_stop and timestamp >= cur_timestamp):
+                        trip_id = entity.id
 
-        return realtime_schedule
+                        query_dir = """SELECT route_id, trip_headsign from trips where trip_id = :trip_id"""
+                        trip_info = self.query_db(query_dir, {'trip_id':trip_id})
+                        line_id = trip_info[0][0]
+                        trip_headsign = trip_info[0][1]
+
+                        query_line = """SELECT route_short_name from routes where route_id = :line_id"""
+                        line_short_name = self.query_db(query_line, {'line_id':line_id})
+                        line_short_name = line_short_name[0][0]
+
+                        departure_time = datetime.fromtimestamp(timestamp)
+                        departure_time = self.format_time(departure_time)
+                        departures.append({
+                            'line_name': line_short_name,
+                            'line_direction': trip_headsign,
+                            'departure_timestamp': timestamp,
+                            'departure_time': departure_time
+                        })
+
+                        count += 1
+
+                    # Fetch only the first 10 results
+                    if count > 9:
+                        break
+
+        # Sort departures using timestamp (lowest to highest)
+        departures.sort(key=lambda x: x["departure_timestamp"])
+
+        return departures
 
 
-    def get_offline_schedule(self, departures):
-
-        schedule = []
-
-        for departure in departures:
-            scheduled_time = departure['scheduled_time']
-            time_obj = self.convert_time(scheduled_time)
-            departure_time = self.format_time(time_obj)
-            schedule.append({
-                'line_name': departure['route_name'],
-                'line_direction': departure['direction_name'],
-                'departure_time': departure_time
-            })
-
-        return schedule
-
-    # Display theorical hours if real time feed can't be fetched or is empty
+    # Display theoretical hours if real time feed can't be fetched or is empty
     def select_schedule(self, journey, stop_id):
 
-        departures = self.get_departures(journey)
         feed = self.select_feed()
 
         if feed:
-            schedule = self.get_realtime_schedule(feed, stop_id, departures)
+            schedule = self.get_realtime_schedule(feed, stop_id)
             is_realtime = True
         else:
-            schedule = self.get_offline_schedule(departures)
+            schedule = self.get_offline_schedule(journey)
             is_realtime = False
 
         return {'schedule': schedule, 'is_realtime': is_realtime}
