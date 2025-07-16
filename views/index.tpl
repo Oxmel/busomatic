@@ -56,8 +56,7 @@
         <div class="banner info-block center-items">
           <img src="/static/images/bus_stop.png" /><span id="stop-name"></span>
         </div>
-        <table id="print-stop">
-        </table>
+        <div id="print-stop"></div>
       </div>
 
       <!-- Reset button, send back to start page -->

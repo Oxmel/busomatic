@@ -256,6 +256,7 @@ class BusQuery():
     def get_offline_schedule(self, journey):
 
         departures = []
+        departure_delay = "hors-ligne"
 
         query = """
             WITH valid_services AS (
@@ -307,7 +308,8 @@ class BusQuery():
             departure = {
                 'line_name': route_name,
                 'line_direction':  dir_name,
-                'departure_time': departure_time
+                'departure_time': departure_time,
+                'departure_delay': departure_delay
             }
 
             departures.append(departure)
@@ -328,11 +330,20 @@ class BusQuery():
                 for stop_time_update in entity.trip_update.stop_time_update:
                     stop_id = stop_time_update.stop_id
                     timestamp = stop_time_update.arrival.time
-                    delay = stop_time_update.departure.delay
 
                     if (stop_id == target_stop and timestamp >= cur_timestamp):
+                        delay = stop_time_update.departure.delay
                         route_id = entity.trip_update.trip.route_id
                         trip_id = entity.id
+
+                        if delay < -60:
+                            departure_delay = abs(delay) // 60
+                            departure_delay = f"avance {departure_delay}'"
+                        elif delay > 60:
+                            departure_delay = delay // 60
+                            departure_delay = f"retard {departure_delay}'"
+                        else:
+                            departure_delay = "à l'heure"
 
                         query_route = """SELECT route_short_name from routes where route_id = :route_id"""
                         route_short_name = self.query_db(query_route, {'route_id':route_id})
@@ -358,7 +369,8 @@ class BusQuery():
                             'line_name': route_short_name,
                             'line_direction': trip_headsign,
                             'departure_timestamp': timestamp,
-                            'departure_time': departure_time
+                            'departure_time': departure_time,
+                            'departure_delay': departure_delay
                         })
 
                         count += 1

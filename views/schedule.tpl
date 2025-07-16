@@ -1,7 +1,10 @@
 % for departure in schedules:
-  <tr>
-    <td id="line-name">{{departure['line_name']}}</td>
-    <td id="line-direction">{{departure['line_direction']}}</td>
-    <td id="line-schedule">{{departure['departure_time']}}</td>
-  </tr>
+  <div class="departure">
+    <div class="route-name">{{departure['line_name']}}</div>
+    <div class="route-direction">{{departure['line_direction']}}</div>
+    <div class="route-schedule">
+      <div class="departure-time">{{departure['departure_time']}}</div>
+      <div class="departure-delay">{{departure['departure_delay']}}</div>
+    </div>
+  </div>
 % end
