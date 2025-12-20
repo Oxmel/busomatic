@@ -137,16 +137,19 @@ class BusQuery():
 
 
     # Original GTFS contains a lot of special lines we don't need
-    # So we filter lines by name and size to get regular services only
+    # So we filter lines by name to get regular services only
     def get_lines(self):
 
         query = """
             SELECT route_id,
               route_desc
             FROM routes
-            WHERE route_desc LIKE 'T%'
-              OR route_desc LIKE 'L%'
-              AND length(route_desc) < 9
+            WHERE route_desc LIKE 'Ligne A%'
+              OR route_desc LIKE 'Ligne B%'
+              OR route_desc LIKE 'Ligne C%'
+              OR route_desc LIKE 'Ligne E%'
+              OR route_desc LIKE 'Ligne S%'
+              OR route_desc LIKE 'Ligne P%'
             ORDER BY route_short_name + 0 ASC
         """
 
